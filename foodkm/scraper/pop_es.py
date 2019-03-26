@@ -5,8 +5,7 @@ from pkg_resources import resource_filename
 
 es = Elasticsearch(
     [os.environ['FOODKM_ES_HOST']],
-    http_auth=('user', 'secret'),
-    scheme="https",
+    scheme="http",
     port=os.environ['FOODKM_ES_PORT'],
 )
 
