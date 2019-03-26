@@ -3,6 +3,7 @@
 !/.gitignore
 data/*
 !data/placeholder.txt
+!data/*/placeholder.txt
 __pycache__
 */.ipynb_checkpoints
 *.egg-info/
