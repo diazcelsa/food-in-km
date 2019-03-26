@@ -1,0 +1,40 @@
+{
+  "name": "frontend",
+  "version": "0.0.0",
+  "description": "template for react + redux + rxjs",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --port 8090 --host 0.0.0.0 --hot --inline",
+    "build": "webpack --mode production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "copy-webpack-plugin": "^5.0.1",
+    "css-loader": "^2.1.1",
+    "html-webpack-plugin": "^3.2.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-dev-server": "^3.2.1"
+  },
+  "dependencies": {
+    "file-loader": "^3.0.1",
+    "lodash": "^4.17.11",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-observable": "^1.0.0",
+    "rxjs": "^6.4.0",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.86.0",
+    "url-loader": "^1.1.2"
+  }
+}
