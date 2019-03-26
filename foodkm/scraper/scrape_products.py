@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from bs4 import BeautifulSoup
 
-from foodkm.scraper.scrape_utils import get_driver, switch_to_menu
+from foodkm.scraper.scrape_utils import get_driver
 
 
 def get_product_info(all_product_ids):
@@ -12,6 +12,7 @@ def get_product_info(all_product_ids):
     driver = get_driver()
 
     contenidos = []
+    factor = 1
     for prod_id in all_product_ids:
         while True:
             try:
@@ -19,10 +20,12 @@ def get_product_info(all_product_ids):
                 contenidos.append(contenido)
                 print("Add product id", prod_id)
                 time.sleep(20)
+                factor = 1
                 break
             except Exception as exp:
                 print("Server not responding: ", exp)
-                time.sleep(60)
+                factor *= 2
+                time.sleep(60 * factor)
 
     driver.close()
     return contenidos

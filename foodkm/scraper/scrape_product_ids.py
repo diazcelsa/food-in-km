@@ -8,8 +8,6 @@ from foodkm.scraper.scrape_utils import login, switch_to_menu
 
 
 # Generate product ids of interest
-# ROOT_ELEMS = ['#elemT107', '#elemT128', '#elemT137', '#elemT295', '#elemT409', '#elemT456', '#elemT617'] #'#elemT8',
-ROOT_IDS = [110, 128, 137, 295, 409, 456, 617] #8,
 ROOT_CATS = [
     # 'PASCUA',
     # 'BAJADAS PVP',

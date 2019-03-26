@@ -1,0 +1,34 @@
+GET /_search
+{
+    "sort" : [
+        {
+            "_geo_distance" : {
+                "pin.location" : [-70, 40],
+                "order" : "asc",
+                "unit" : "km",
+                "mode" : "min",
+                "distance_type" : "arc",
+                "ignore_unmapped": true
+            }
+        }
+    ],
+    "query" : {
+        "term" : { "user" : "kimchy" }
+    }
+}
+
+
+
+PUT /food_in_km
+{
+    "mappings": {
+        "_doc": {
+            "properties": {
+                "location": {
+                    "type": "geo_point"
+                }
+            }
+        }
+    }
+}
+"food_in_km", doc_type='product'
