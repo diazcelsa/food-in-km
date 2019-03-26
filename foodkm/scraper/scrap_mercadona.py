@@ -10,23 +10,18 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 
 # Generate product ids of interest
-ROOT_ELEMS = ['#elemT107', '#elemT128', '#elemT137', '#elemT295', '#elemT409', '#elemT456', '#elemT617'] #'#elemT8', 
-ROOT_IDS = [107, 128, 137, 295, 409, 456, 617] #8, 
+ROOT_ELEMS = ['#elemT107', '#elemT128', '#elemT137', '#elemT295', '#elemT409', '#elemT456', '#elemT617'] #'#elemT8',
+ROOT_IDS = [107, 128, 137, 295, 409, 456, 617] #8,
 
 
 def collect_ids(driver, id_elem, category_1='none', category_2='none', category_3='none', category_4='none',
                 category_5='none', category_6='none'):
     try:
-        print("before open2")
+        switch_to_menu(driver)
         elems = driver.find_elements_by_css_selector('#elemT'+ str(id_elem))
-        if isinstance(elems, list):
-            print(elems, type(elems))
-            elems[0].click()
-        else:
-            print("are u inside?")
-            elems.click()
-        # id_elem += 1
-        print("after open2")
+
+        assert len(elems) == 1, 'Expected only one element.'
+        elems[0].click()
 
         # check if more than one page
         dicts = []
@@ -34,30 +29,33 @@ def collect_ids(driver, id_elem, category_1='none', category_2='none', category_
         while next_page_option == True:
 
             # move to the menu frame to extract product ids and prices
-            driver.switch_to.default_content()
-            driver.switch_to.frame("mainFrame")
-            rest = driver.execute_script('return document.documentElement.outerHTML')
-            soup_cat = BeautifulSoup(rest, "html.parser")
-            print('one')
-            tbody = soup_cat.findAll('tbody')
-            if isinstance(tbody, list):
-                print("really", tbody, type(tbody))
-                tbody = tbody[0]
+            while True:
+                driver.switch_to.default_content()
+                driver.switch_to.frame("mainFrame")
+                rest = driver.execute_script('return document.documentElement.outerHTML')
+                soup_cat = BeautifulSoup(rest, "html.parser")
+                tbody = soup_cat.findAll('tbody')
+
+                if len(tbody):
+                    break
+                else:
+                    time.sleep(60)
+            tbody = tbody[0]
             trs = tbody.findAll('tr')
 
             # collect product ids and prices
             product_ids = []
             prices = []
-            print('one an a half')
+            # print('one an a half')
             for tr in trs:
                 aha = tr.findAll('td', {'headers':'header2'})
-                print('two')
+                # print('two')
                 if len(aha[0]) != 0 and len(aha[0].findAll('a')) != 0:
-                    print('three')
+                    # print('three')
                     product_ids.append(re.findall(r'\d+', aha[0].findAll('a')[0]['href'])[0])
-                    if len(aha[1]) != 0 and len(aha[1].findAll('span', 
+                    if len(aha[1]) != 0 and len(aha[1].findAll('span',
                                                                {'class': 'precio_ud tdcenter'})) != 0:
-                        print('four')
+                        # print('four')
                         prices.append(aha[1].findAll('span', {'class': 'precio_ud tdcenter'})[0].text)
                     else:
                         prices.append('unknown')
@@ -89,10 +87,11 @@ def collect_ids(driver, id_elem, category_1='none', category_2='none', category_
             else:
                 next_page_option = False
         return pd.DataFrame.from_dict(dicts)
-                
+
     except Exception as exp:
         print(f'Error with id {id_elem}: {exp}')
         time.sleep(10)
+        raise
         return pd.DataFrame.from_dict([{
                     'root_cat': category_1,
                     'child_1_cat': category_2,
@@ -135,7 +134,7 @@ def get_additional_info_product(soup_cat, product_info):
             print(compl_names)
             for i, name in enumerate(compl_names):
                 product_info[name.text] = compl_values[i]
-            
+
     return product_info
 
 def define_product_general_info_object(product_info, dataset, index):
@@ -179,23 +178,22 @@ def switch_to_menu(driver):
 
 
 def find_menu_children(driver, parent, level):
-    print("before open1")
     category = parent.text.split('\n')[0]
-    parent.click()
-    print("after open1")
-    # id_elem += 1
+    parent_link = parent.find_elements_by_css_selector('a')
+
+    assert len(parent_link) == 1, 'Expected only one child link.'
+
+    parent_link[0].click()
 
     # get third children
-    children = driver.find_elements_by_css_selector(f'.ulnivel{level} li')
+    children = parent.find_elements_by_css_selector(f'.ulnivel{level} li')
     return category, children
 
 
 def single_menu_children(driver, id_elem, **categories):
     print(f"collect ids, id_elem: {id_elem}, categories: {str(categories)}")
-    # categories = {f'category_{i}': c for i, c in enumerate(categories)}
     df_products = collect_ids(driver, id_elem, **categories)
-    # id_elem += 1
-    
+
     switch_to_menu(driver)
     time.sleep(8)
     return df_products
@@ -223,8 +221,9 @@ def get_all_ids():
 
     # Extract product Ids
     dfs_products = []
-    for i, root in enumerate(ROOT_ELEMS):
-        id_elem = ROOT_IDS[i]
+    for i, id_elem in enumerate(ROOT_IDS):
+        # id_elem = ROOT_IDS[i]
+        root = f'#elem{id_elem}'
         first_level = driver.find_elements_by_css_selector(root)
 
         # open root
@@ -236,7 +235,7 @@ def get_all_ids():
             dfs_products.append(single_menu_children(
                 driver, id_elem, category_1=parent_category))
             continue
-            
+
         else:
             # open first children
             # if id_elem == 8:
@@ -244,27 +243,24 @@ def get_all_ids():
             id_elem += 1
             for child_one in children_one:
                 children_one_category, children_two = find_menu_children(driver, child_one, level=3)
-
                 if len(children_two) == 0:
-                    print("mytest",children_one_category)
                     dfs_products.append(single_menu_children(
                         driver, id_elem, category_1=parent_category, category_2=children_one_category))
                     id_elem += 1
                     continue
-                    
+
                 else:
                     # open second children
                     id_elem += 1
                     for child_two in children_two:
                         children_two_category,  children_three = find_menu_children(driver, child_two, level=4)
                         if len(children_three) == 0:
-                            print("mytest",children_two_category)
                             dfs_products.append(single_menu_children(
                                 driver, id_elem, category_1=parent_category, category_2=children_one_category,
                                 category_3=children_two_category))
                             id_elem += 1
                             continue
-                            
+
                         else:
                             # open thrid children
                             id_elem += 1
@@ -275,10 +271,10 @@ def get_all_ids():
                                     dfs_products.append(single_menu_children(
                                         driver, id_elem, category_1=parent_category, category_2=children_one_category,
                                         category_3=children_two_category, category_4=children_three_category))
-                                    
+
                                     id_elem += 1
                                     continue
-                                    
+
                                 else:
                                     # open four children
                                     id_elem += 1
@@ -292,11 +288,11 @@ def get_all_ids():
 
                                         id_elem += 1
 
-        pd.concat(dfs_products).reset_index(drop=True).to_csv('mercadona_product_ids_'+ root + '.csv',
-                                                            index=False,encoding="utf-8")
+        pd.concat(dfs_products).reset_index(drop=True).to_csv(
+            'mercadona_product_ids_'+ root + '.csv', index=False,encoding="utf-8")
         time.sleep(60)
-    all_product_ids = pd.concat(dfs_products).reset_index(drop=True).to_csv('mercadona_product_ids_complete.csv',
-                                                            index=False,encoding="utf-8")
+    all_product_ids = pd.concat(dfs_products).reset_index(drop=True).to_csv(
+        'mercadona_product_ids_complete.csv', index=False,encoding="utf-8")
     driver.close()
     return all_product_ids
 
@@ -313,7 +309,7 @@ def get_product_info(all_product_ids):
                 contenido = get_contenido_product(prod_id)
                 print(prod_id, '\n')
                 print(contenido, '\n')
-                
+
                 contenidos.append(contenido)
                 time.sleep(8)
                 continue
@@ -339,9 +335,9 @@ def extract_structured_product_info(all_product_info):
         if repetitions > 1:
             product_info = {}
             product_info = define_product_general_info_object(product_info, all_product_info, index)
-            
+
             for j, name in enumerate(names_info):
-                
+
                 # product name
                 one = soup_cat.find('div', {'class':'inter'}).text.split(':')
                 product_info[one[0]] = one[1]
@@ -364,7 +360,7 @@ def extract_structured_product_info(all_product_info):
         else:
             product_info = {}
             product_info = define_product_general_info_object(product_info, all_product_info, index)
-                    
+
             # product name
             one = soup_cat.find('div', {'class':'inter'}).text.split(':')
             product_info[one[0]] = one[1]
@@ -379,7 +375,7 @@ def extract_structured_product_info(all_product_info):
             product_info = get_additional_info_product(soup_cat, product_info)
             products_collector.append(product_info)
         df_all_contenidos_complete.append(products_collector)
-        
+
     # shape all data as dataframe
     sample_clean_all_products = pd.DataFrame.from_records(itertools.chain.from_iterable(df_all_contenidos_complete))
     sample_clean_all_products.to_csv('product_vector_complete.csv', index=False, encoding='utf-8')

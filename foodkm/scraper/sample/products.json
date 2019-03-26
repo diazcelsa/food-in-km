@@ -1,0 +1,22 @@
+[
+    {
+        "productName": "Cafe best",
+        "productGroup": "cafe",
+        "price": 12.23,
+        "price_per": "kg",
+        "location": {
+            "lat": 40.424407,
+            "long": -3.698319
+        }
+    },
+    {
+        "productName": "Cafe best",
+        "productGroup": "cafe",
+        "price": 12.23,
+        "price_per": "kg",
+        "location": {
+            "lat": 40.424407,
+            "long": -3.698319
+        }
+    }
+]

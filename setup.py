@@ -6,6 +6,7 @@ setup(
     packages=find_packages(),
     install_requires=[
         'responder==1.3.0',
+        'elasticsearch==6.3.1',
         'requests',
         'lxml',
         'unicodecsv',
