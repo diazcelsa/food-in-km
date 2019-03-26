@@ -4,42 +4,30 @@ let dummy = [
   {
     'name' : 'Arroz',
     'price' : '1€',
-    'distance': '33.4km'
+    'distance': '33.4km',
+    'loc' : [41.582578,0.603605]
   },
   {
-    'name' : 'Cerveza',
-    'price' : '2€',
-    'distance': '63.4km'
-  },
-  {
-    'name' : 'Aceitunas',
-    'price' : '7.50€',
-    'distance': '23.4km'
-  },
-  {
-    'name' : 'Agua',
-    'price' : '11€',
-    'distance': '1,400km'
-  },
-  {
-    'name' : 'Arroz',
-    'price' : '1€',
-    'distance': '33.4km'
+    'name' : 'Chocolate',
+    'price' : '130€',
+    'distance': '33.4km',
+    'loc' : [33.601301, 5.290211]
   },
   {
     'name' : 'Vino',
     'price' : '12€',
-    'distance': '83.4km'
+    'distance': '83.4km',
+    'loc' : [36.803759,-2.541634]
   },
 ]
 
 
 const ProductListItem = ({name,price,distance,idx,onClick}) => (
     <div className="product-list-item">
-      <button className="add-to-cart-button" onClick={onClick}></button>
       <div className="product-list-item-name">{name}</div>
       <div className="product-list-item-price">{price}</div>
       <div className="product-list-item-km">{distance}</div>
+      <button className="add-to-cart-button" onClick={onClick}>+</button>
     </div>
 )
 
