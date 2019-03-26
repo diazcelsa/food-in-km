@@ -1,4 +1,5 @@
 import os
+import math
 import pandas as pd
 import itertools
 from bs4 import BeautifulSoup
@@ -23,7 +24,7 @@ def extract_structured_product_info(all_product_info):
             for j, name in enumerate(names_info):
 
                 # product name
-                one = soup_cat.find('div', {'class':'inter'}).text.split(':')
+                one = soup_cat.find('div', {'class': 'inter'}).text.split(':')
                 product_info[one[0]] = one[1]
 
                 if j == 0:
@@ -72,6 +73,7 @@ def define_product_general_info_object(product_info, dataset, index):
     product_info['child_4_cat'] = dataset.loc[index,'child_4_cat']
     product_info['child_5_cat'] = dataset.loc[index,'child_5_cat']
     product_info['price'] = dataset.loc[index,'price']
+    product_info['price_norm'] = dataset.loc[index,'price_norm']
     product_info['product_id'] = dataset.loc[index,'product_id']
     product_info['root_cat'] = dataset.loc[index,'root_cat']
     return product_info
@@ -112,9 +114,10 @@ def get_paths(source):
 
 def get_all_product_html_files():
     for source in os.listdir('data/product_html'):
-        source, dest = get_paths(source)
-        if not os.path.isfile(dest):
-            yield source, dest
+        if source != 'placeholder.txt':
+            source, dest = get_paths(source)
+            if not os.path.isfile(dest):
+                yield source, dest
 
 
 def main():

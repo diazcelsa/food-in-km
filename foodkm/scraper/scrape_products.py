@@ -47,9 +47,10 @@ def get_paths(source):
 
 def get_all_product_id_files():
     for source in os.listdir('data/product_ids'):
-        source, dest = get_paths(source)
-        if not os.path.isfile(dest):
-            yield source, dest
+        if source != 'placeholder.txt':
+            source, dest = get_paths(source)
+            if not os.path.isfile(dest):
+                yield source, dest
 
 
 def main():
