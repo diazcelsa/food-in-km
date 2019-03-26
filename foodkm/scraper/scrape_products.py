@@ -1,14 +1,15 @@
 import time
+import os
 import pandas as pd
 from bs4 import BeautifulSoup
 
-from foodkm.scraper.scrape_utils import login, switch_to_menu
+from foodkm.scraper.scrape_utils import get_driver, switch_to_menu
 
 
 def get_product_info(all_product_ids):
 
     # access my mercadona account
-    driver = login()
+    driver = get_driver()
 
     contenidos = []
     for prod_id in all_product_ids:
@@ -17,7 +18,7 @@ def get_product_info(all_product_ids):
                 contenido = get_contenido_product(driver, prod_id)
                 contenidos.append(contenido)
                 print("Add product id", prod_id)
-                time.sleep(8)
+                time.sleep(20)
                 break
             except Exception as exp:
                 print("Server not responding: ", exp)
@@ -32,34 +33,31 @@ def get_contenido_product(driver, product_id):
     driver.get(url)
 
     rest = driver.execute_script('return document.documentElement.outerHTML')
+
     soup_cat = BeautifulSoup(rest, "html.parser")
-    return soup_cat.findAll('div', {'class':'contenido'})[0]
+    return soup_cat.findAll('div', {'class':'contenido'})[0].decode()
 
 
-def make_file_name(source):
-    filename = os.path.basename(source)
-    filename, ext = os.path.splitext(filename)
-    return f"data/product_html/{filename}.pkl"
+def get_paths(source):
+    basename, ext = os.path.splitext(source)
+    source_path = f"data/product_ids/{source}"
+    dest_path = f"data/product_html/{basename}.pkl"
+    return source_path, dest_path
 
-
-def check_df(category_1=None, category_2=None):
-    filename = make_file_name(category_1, category_2)
-    return os.path.isfile(filename)
 
 def get_all_product_id_files():
     for source in os.listdir('data/product_ids'):
-        dest = make_file_name(source)
-        if not os.path.isfile(filename)
+        source, dest = get_paths(source)
+        if not os.path.isfile(dest):
+            yield source, dest
 
 
 def main():
-
-
-    df = pd.read_csv('data/mercadona_product_ids_#elem110.csv')
-    df = df.iloc[:10]
-    # Get the HTML content of each of the food products
-    df['contenidos'] = get_product_info(df['product_id'].tolist())
-    df.to_csv('data/mercadona_product_ids_#elem110_html.csv', index=False,encoding="utf-8")
+    for source, dest in get_all_product_id_files():
+        df = pd.read_csv(source)
+        # df = df.iloc[:5]
+        df['contenidos'] = get_product_info(df['product_id'].tolist())
+        df.to_pickle(dest)
 
 
 if __name__ == "__main__":

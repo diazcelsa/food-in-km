@@ -1,4 +1,4 @@
-import math
+import os
 import pandas as pd
 import itertools
 from bs4 import BeautifulSoup
@@ -64,6 +64,7 @@ def extract_structured_product_info(all_product_info):
     clean_df = pd.DataFrame.from_records(itertools.chain.from_iterable(df_all_contenidos_complete))
     return clean_df
 
+
 def define_product_general_info_object(product_info, dataset, index):
     product_info['child_1_cat'] = dataset.loc[index,'child_1_cat']
     product_info['child_2_cat'] = dataset.loc[index,'child_2_cat']
@@ -102,12 +103,25 @@ def get_additional_info_product(soup_cat, product_info):
     return product_info
 
 
+def get_paths(source):
+    basename, ext = os.path.splitext(source)
+    source_path = f"data/product_html/{source}"
+    dest_path = f"data/product_info/{basename}.csv"
+    return source_path, dest_path
+
+
+def get_all_product_html_files():
+    for source in os.listdir('data/product_html'):
+        source, dest = get_paths(source)
+        if not os.path.isfile(dest):
+            yield source, dest
+
+
 def main():
-    df = pd.read_csv('data/mercadona_product_ids_#elem110_html.csv')
-    df = df.iloc[:10]
-    # Get the HTML content of each of the food products
-    clean_df = extract_structured_product_info(df)
-    clean_df.to_csv('product_vector_complete.csv', index=False, encoding='utf-8')
+    for source, dest in get_all_product_html_files():
+        df = pd.read_pickle(source)
+        clean_df = extract_structured_product_info(df)
+        clean_df.to_csv(dest, index=False, encoding='utf-8')
 
 
 if __name__ == "__main__":

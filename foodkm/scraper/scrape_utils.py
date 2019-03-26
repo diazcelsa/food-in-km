@@ -1,14 +1,18 @@
 import os
 from selenium import webdriver
 
-
-def login():
-    print("start extraction of product_ids")
-    # Log In
+def get_driver():
     driverLocation = '/usr/local/bin/chromedriver'
     driver = webdriver.Chrome(driverLocation)
     url = "https://www.telecompra.mercadona.es/ns/principal.php"
     driver.get(url)
+    return driver
+
+
+def login():
+    print("start extraction of product_ids")
+    # Log In
+    driver = get_driver()
     aqui = driver.find_elements_by_css_selector('.marcotexto a')
     aqui[0].click()
 

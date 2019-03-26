@@ -116,7 +116,7 @@ def collect_ids(driver, id_elem, **categories):
                 print(rest)
                 driver.back()
                 time.sleep(60)
-    return pd.DataFrame.from_dict(dicts)
+    return dicts
 
 
 def find_menu_children(driver, parent, level):
