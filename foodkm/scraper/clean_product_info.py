@@ -40,21 +40,49 @@ def extract_prices_info(df):
 
 
 def get_lat_long_from_address(df):
+
+    # Get all geolocation data from Google API
     lats = []
     longs = []
+    addresses = []
+    localities = []
+    provinces = []
+    states = []
+    countries = []
+    postal_codes = []
+
     for address in df['provider_address'].tolist():
-    try:
-        lat, long = get_latitude_longitude_google_api(GOOGLE_MAPS_API_URL, GOOGLE_MAPS_API_KEY, address)
-    except Exception as exp: 
-        print("{} not valid because {}".format(address, exp))
-        lat = 0
-        long = 0
-        
-    lats.append(lat)
-    longs.append(long)
+        try:
+            geodata = get_latitude_longitude_from_address(GOOGLE_MAPS_API_URL, GOOGLE_MAPS_API_KEY, address)
+            lats.append(geodata['lat'])
+            longs.append(geodata['lon'])
+            addresses.append(geodata['address'])
+            localities.append(geodata['locality'] if 'locality' in list(geodata.keys()) else '')
+            provinces.append(geodata['province'] if 'province' in list(geodata.keys()) else '')
+            states.append(geodata['state'] if 'state' in list(geodata.keys()) else '')
+            countries.append(geodata['country'] if 'country' in list(geodata.keys()) else '')
+            postal_codes.append(geodata['postal_code'] if 'postal_code' in list(geodata.keys()) else '')
+            
+        except Exception as exp: 
+            print("{} not valid because {}".format(address, exp))
+            lats.append(0)
+            longs.append(0)
+            addresses.append(address)
+            localities.append('')
+            provinces.append('')
+            states.append('')
+            countries.append('')
+            postal_codes.append('')
 
     df['lat'] = lats
-    df['longs'] = longs
+    df['lon'] = longs
+    df['address'] = addresses
+    df['locality'] = localities
+    df['province'] = provinces
+    df['address'] = addresses
+    df['state'] = states
+    df['country'] = countries
+    df['postal_code'] = postal_codes
 
     return df
 
