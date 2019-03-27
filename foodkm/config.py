@@ -35,3 +35,6 @@ COL_RENAME_DICT = {
     'child_4_cat': 'category_child4', 
     'child_5_cat': 'category_child5',
 }
+
+# User default data
+USER_COUNTRY = 'Spain'

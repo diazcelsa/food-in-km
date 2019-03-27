@@ -1,12 +1,14 @@
 import os
+from foodkm import config
 from elasticsearch import Elasticsearch
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
+from foodkm.geo_utils import get_latitude_longitude_google_api
+
 app = Flask(__name__)
 CORS(app)
-
 
 es = Elasticsearch(
     [os.environ['FOODKM_ES_HOST']],
@@ -30,7 +32,11 @@ def make_search_query(query, lat, lon):
             }
         ],
         "query": {
-            "match": {"category_child1": query}
+            "multi_match": {
+                "fields": ["product_name"],
+                "query": query,
+                "fuzziness": "AUTO"
+            }
         }
     }
 
@@ -55,6 +61,21 @@ def search():
     results = parse_search_results(results)
     body = {'results': results}
     return jsonify(body)
+
+
+def get_user_location(postal_code):
+    address = postal_code + ", " + config.USER_COUNTRY
+    geodata = get_latitude_longitude_google_api(config.GOOGLE_MAPS_API_URL, config.GOOGLE_MAPS_API_KEY, address)
+    return geodata['lat'], geodata['lon']
+
+
+@app.route("/location")
+def location():
+    user_geo_location = {}
+    lat, lon = get_user_location(request.args.get('postal_code'))
+    user_geo_location['lat'] = lat
+    user_geo_location['lon'] = lon
+    return jsonify(user_geo_location)
 
 
 def run():
