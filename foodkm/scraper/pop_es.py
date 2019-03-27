@@ -18,7 +18,7 @@ def load_json():
 def import_es():
     products = load_json()
     for p in products:
-        res = es.index(index="food_in_km", doc_type='product', body=p, id=1)
+        res = es.index(index="food_in_km", doc_type='_doc', body=p)
         print(res)
 
 
