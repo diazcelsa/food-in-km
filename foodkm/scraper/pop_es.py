@@ -30,14 +30,15 @@ def import_es(filename):
     for index, row in products.iterrows():
         body = row.to_dict()
         body = {k: v for k, v in body.items() if not pd.isna(v)}
-        print(body)
-        res = es.index(index="food_in_km", doc_type='_doc', body=body)
-        print(res)
+        try:
+            res = es.index(index="food_in_km", doc_type='_doc', body=body)
+        except:
+            print(res)
 
 
 def get_all_files():
     for source in os.listdir('data/product_complete'):
-        if source != 'placeholder.txt':
+        if source[0].isupper():
             source = f"data/product_complete/{source}"
             yield source
 
