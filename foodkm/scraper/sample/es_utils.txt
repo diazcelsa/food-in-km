@@ -3,7 +3,7 @@ GET /_search
     "sort" : [
         {
             "_geo_distance" : {
-                "pin.location" : [-70, 40],
+                "location" : [-70, 40],
                 "order" : "asc",
                 "unit" : "km",
                 "mode" : "min",
@@ -12,9 +12,45 @@ GET /_search
             }
         }
     ],
-    "query" : {
-        "term" : { "user" : "kimchy" }
+    "query": {
+        "match_all": {}
     }
+}
+
+GET /_search
+{
+    "sort" : [
+        {
+            "_geo_distance" : {
+                "location" : [-70, 40],
+                "order" : "asc",
+                "unit" : "km",
+                "mode" : "min",
+                "distance_type" : "arc",
+                "ignore_unmapped": true
+            }
+        }
+    ],
+    "query": {
+        "term" : { "productGroup" : "cafe" }
+    }
+}
+
+POST twitter/_search
+{
+  "query" : {
+    "match": {
+      "message": "tring out Elasticsearch"
+    }
+  },
+  "suggest" : {
+    "my-suggestion" : {
+      "text" : "trying out Elasticsearch",
+      "term" : {
+        "field" : "message"
+      }
+    }
+  }
 }
 
 
@@ -31,4 +67,3 @@ PUT /food_in_km
         }
     }
 }
-"food_in_km", doc_type='product'
