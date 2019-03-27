@@ -36,18 +36,13 @@ GET /_search
     }
 }
 
-POST twitter/_search
+POST food_in_km/_search
 {
-  "query" : {
-    "match": {
-      "message": "tring out Elasticsearch"
-    }
-  },
   "suggest" : {
-    "my-suggestion" : {
-      "text" : "trying out Elasticsearch",
+    "productGroupSuggestion" : {
+      "text" : "cafee",
       "term" : {
-        "field" : "message"
+        "field" : "productGroup"
       }
     }
   }
