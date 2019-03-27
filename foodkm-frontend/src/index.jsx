@@ -15,13 +15,11 @@ import epics from "./epics";
 import reducers from "./reducer";
 
 
-import InputContainer from './container/input';
-import WelcomeContainer from './container/welcome';
 import ErrorsContainer from './container/error';
-import ProductListSearchBox from './components/ProductListSearchBox';
-import ProductList from './components/ProductList';
-import MapComponent from './components/MapComponent';
-import StatusBar from './components/StatusBar';
+import ProductListSearchBox from './container/ProductListSearchBox';
+import ProductList from './container/ProductList';
+import MapComponent from './container/MapComponent';
+import StatusBar from './container/StatusBar';
 
 
 class Index extends React.Component {
@@ -36,6 +34,7 @@ class Index extends React.Component {
     render() {
         return (
         <div id="cart-wrapper">
+            <ErrorsContainer/>
             <ProductListSearchBox/>
 
             <div id="cart-wrapper-body">
@@ -50,7 +49,7 @@ class Index extends React.Component {
                       <div className="product-list-item-price">Precio</div>
                       <div className="product-list-item-km">Distancia</div>
                     </div>
-                    
+
                     <div className="inner">
                         <ProductList/>
                     </div>

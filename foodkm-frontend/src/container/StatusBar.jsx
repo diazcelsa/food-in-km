@@ -9,4 +9,17 @@ const StatusBar = ({totalPrice=70,totalKM=1300,onClick}) => (
     </div>
 )
 
+// const BasketComponent = ({basket}) => {
+//     const totalPrice =
+// }
+
+// const StatusBarContainer = connect(
+//     (state, ownProps) => ({
+//         list: state.productList
+//     }),
+//     (dispatch, ownProps) => ({
+//         onChange: (value) => dispatch(a.searchProducts(value))
+//     })
+// )(StatusBar)
+
 export default StatusBar

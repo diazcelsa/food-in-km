@@ -33,7 +33,7 @@ def import_es(filename):
         try:
             res = es.index(index="food_in_km", doc_type='_doc', body=body)
         except:
-            print(res)
+            print(body)
 
 
 def get_all_files():

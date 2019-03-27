@@ -21,7 +21,7 @@ const errorReducer = (error = [], action) => {
     }
 }
 
-const locationReducer = (location={lat: null, lon: null}, action) => {
+const locationReducer = (location={lat: 34, lon: 23}, action) => {
     switch (action.type) {
         case 'LOCATION_UPDATE':
             return {lat: action.lat, lon: action.lon}
@@ -30,7 +30,28 @@ const locationReducer = (location={lat: null, lon: null}, action) => {
     }
 }
 
-const productsReducer = (products = [], action) => {
+let productsDummy = [
+{
+    'product_name' : 'Arroz',
+    'price' : '1€',
+    'distance': '33.4km',
+    'loc' : [41.582578,0.603605]
+},
+{
+    'product_name' : 'Chocolate',
+    'price' : '130€',
+    'distance': '33.4km',
+    'loc' : [33.601301, 5.290211]
+},
+{
+    'product_name' : 'TEST',
+    'price' : '12€',
+    'distance': '83.4km',
+    'loc' : [36.803759,-2.541634]
+},
+]
+
+const productsReducer = (products = productsDummy, action) => {
     switch (action.type) {
         case 'PRODUCTS_UPDATE':
             return action.products
