@@ -8,8 +8,8 @@ import { BACKEND_URL } from '../config'
 
 const makeURL = (action, state) => {
     const {lat, lon} = state.location;
-    const category_child1 = action.query;
-    return (BACKEND_URL + '/search?category_child1=' + category_child1 + '&lat=' + lat + '&lon=' + lon)
+    const query = action.query;
+    return (BACKEND_URL + '/search?query=' + query + '&lat=' + lat + '&lon=' + lon)
 }
 
 

@@ -14,7 +14,8 @@ es = Elasticsearch(
     port=os.environ['FOODKM_ES_PORT']
 )
 
-def make_search_query(category_child1, lat, lon):
+
+def make_search_query(query, lat, lon):
     return {
         "sort": [
             {
@@ -29,7 +30,7 @@ def make_search_query(category_child1, lat, lon):
             }
         ],
         "query": {
-            "match": {"category_child1": category_child1}
+            "match": {"category_child1": query}
         }
     }
 
@@ -47,7 +48,7 @@ def parse_search_results(results):
 
 @app.route("/search")
 def search():
-    req_args = ['category_child1', 'lat', 'lon']
+    req_args = ['query', 'lat', 'lon']
     query_args = {ra: request.args.get(ra) for ra in req_args}
     query = make_search_query(**query_args)
     results = es.search(index="food_in_km", doc_type="_doc", body=query)
