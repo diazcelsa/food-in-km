@@ -1,19 +1,20 @@
 import requests
 import pandas as pd
 import numpy as np
-import config
+from foodkm import config
 import argparse
-from foodkm.app.geo_utils import get_latitude_longitude_google_api
+import os
+# from foodkm.app.geo_utils import get_latitude_longitude_google_api
 
 
 def update_column_names(df, COL_RENAME_DICT):
-      df_ = df.copy()
-  return df_.rename(columns=config.COL_RENAME_DICT)
+    df_ = df.copy()
+    return df_.rename(columns=config.COL_RENAME_DICT)
 
 
 def clean_and_rename(df):
     # Drop non necesary columns
-    df_selection = df.drop(col_drops, axis=1)
+    df_selection = df.drop(config.col_drops, axis=1)
 
     # Manage ingredients into a new data structure and select only unique
     df_ingred = df_selection[col_ingredients]
@@ -62,8 +63,8 @@ def get_lat_long_from_address(df):
             states.append(geodata['state'] if 'state' in list(geodata.keys()) else '')
             countries.append(geodata['country'] if 'country' in list(geodata.keys()) else '')
             postal_codes.append(geodata['postal_code'] if 'postal_code' in list(geodata.keys()) else '')
-            
-        except Exception as exp: 
+
+        except Exception as exp:
             print("{} not valid because {}".format(address, exp))
             lats.append(0)
             longs.append(0)
@@ -87,23 +88,39 @@ def get_lat_long_from_address(df):
     return df
 
 
-def main(input):
-    df = pd.read_csv(input)
+def get_paths(source):
+    basename, ext = os.path.splitext(source)
+    source_path = f"data/product_info/{source}"
+    dest_path = f"data/product_complete/{basename}.pkl"
+    return source_path, dest_path
 
-    # clean product info
-    df_clean = clean_and_rename(df)
 
-    # format net prices
-    df_complete = extract_prices_info(df_clean)
+def get_all_product_id_files():
+    for source in os.listdir('data/product_info'):
+        if source != 'placeholder.txt':
+            source, dest = get_paths(source)
+            if not os.path.isfile(dest):
+                yield source, dest
 
-    # Get latitude/longitude
-    df_geo_complete = get_lat_long_from_address(df_complete)
 
-    # Save final csv
-    clean_df.to_csv(config.final_product_info_clean, index=False, encoding='utf-8')
+def main():
+    for source, dest in get_all_product_id_files():
+        df = pd.read_csv(source)
+
+        # clean product info
+        df_clean = clean_and_rename(df)
+
+        # format net prices
+        df_complete = extract_prices_info(df_clean)
+
+        # Get latitude/longitude
+        df_geo_complete = get_lat_long_from_address(df_complete)
+
+        # Save final csv
+        clean_df.to_csv(dest, index=False, encoding='utf-8')
 
 if __name__ == "__main__":
-    parser.add_argument('input', help='path to input csv file')
-    args = parser.parse_args()
+    # parser.add_argument('input', help='path to input csv file')
+    # args = parser.parse_args()
 
-    main(args.input)
+    main()
