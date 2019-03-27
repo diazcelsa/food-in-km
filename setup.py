@@ -1,28 +1,17 @@
 from setuptools import find_packages, setup
 
+
+def load_install_requires():
+    with open('requirements.txt') as f:
+        lines = f.readlines()
+    return lines
+
+
 setup(
     name='foodkm',
     version='0.0.0',
     packages=find_packages(),
-    install_requires=[
-        'responder==1.3.0',
-        'elasticsearch==6.3.1',
-        'requests',
-        'lxml',
-        'unicodecsv',
-        'pandas',
-        'jupyter',
-        'ipython',
-        'bs4',
-        'numpy',
-        'pyopenssl',
-        'ndg-httpsclient',
-        'pyasn1',
-        'selenium',
-        'flask==1.0.2',
-        'flask-cors==3.0.7',
-        'git+https://github.com/rafa-acioly/animal_case'
-    ],
+    install_requires=load_install_requires(),
     extras_require={
         'example': [
             'ipdb',
@@ -34,6 +23,7 @@ setup(
             'flake8',]
     },
     scripts=[
-        'scripts/debug'
+        'scripts/debug',
+        'scripts/backend'
     ]
 )

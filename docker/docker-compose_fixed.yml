@@ -21,9 +21,7 @@ services:
   foodkmbackend:
     ports:
       - "3423:3423"
-    build:
-      context: ./..
-      dockerfile: ./docker/Dockerfile.backend
+    image: levinb/foodkmbackend:0.0.1
     networks:
       - elk
     environment:

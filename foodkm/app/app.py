@@ -14,6 +14,7 @@ es = Elasticsearch(
     port=os.environ['FOODKM_ES_PORT']
 )
 
+print('FOODKM_ES_HOST', os.environ['FOODKM_ES_HOST'])
 
 def make_search_query(category_child1, lat, lon):
     return {
@@ -36,7 +37,6 @@ def make_search_query(category_child1, lat, lon):
 
 
 def parse_search_result(hit):
-    print(hit)
     distance = hit['sort'][0]
     co2 = distance * 10
     return {**hit['_source'], 'distance': distance, 'co2': co2}
