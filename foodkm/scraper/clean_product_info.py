@@ -12,7 +12,7 @@ GOOGLE_MAPS_API_KEY = config.GOOGLE_MAPS_API_KEY
 
 
 def update_column_names(df, COL_RENAME_DICT):
-    df_ = df[COL_RENAME_DICT.keys() + ['ingredients'] + config.PRICES].copy()
+    df_ = df[list(COL_RENAME_DICT.keys()) + ['ingredients'] + config.PRICES].copy()
     return df_.rename(columns=COL_RENAME_DICT)
 
 
