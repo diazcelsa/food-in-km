@@ -19,10 +19,12 @@ def get_product_info(all_product_ids):
                 contenido = get_contenido_product(driver, prod_id)
                 contenidos.append(contenido)
                 print("Add product id", prod_id)
-                time.sleep(20)
+                time.sleep(8)
                 factor = 1
                 break
             except Exception as exp:
+                driver.close()
+                driver = get_driver()
                 print("Server not responding: ", exp)
                 factor *= 2
                 time.sleep(60 * factor)

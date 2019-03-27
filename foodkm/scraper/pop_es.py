@@ -21,8 +21,8 @@ def parse_location(sr):
     return {'lat': sr.lat, 'lon': sr.longs}
 
 
-def import_es():
-    products = pd.read_csv('data/sample_clean_vector.csv')
+def import_es(filename):
+    products = pd.read_csv(filename)
     products['location'] = products[['lat', 'longs']].apply(parse_location, axis=1)
     products = products.drop(['lat', 'longs'], axis=1)
     for index, row in products.iterrows():
@@ -32,5 +32,19 @@ def import_es():
         res = es.index(index="food_in_km", doc_type='_doc', body=body)
         print(res)
 
+
+def get_all_files():
+    for source in os.listdir('data/product_complete'):
+        if source != 'placeholder.txt':
+            source = f"data/product_complete/{source}"
+            yield source
+
+
+def import_all():
+    for filename in get_all_files():
+        import_es(filename)
+
+
+
 if __name__ == "__main__":
-    import_es()
+    import_all()

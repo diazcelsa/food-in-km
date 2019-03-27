@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from newapp.app import app
+from foodkm.app import app
 
 
 def main():
