@@ -40,6 +40,9 @@ def extract_prices_info(df):
     # Get price netto and quantity as different columns
     try:
         df['price'] = df['price'].str.replace(',','.').astype(float)
+    except:
+        pass
+    try:
         df['price_netto'] = df['price_norm'].str.split(':').str[1]
         df['product_price_netto'] = df['price_netto'].str.split(' ').str[1].str.replace(',','.').astype(float)
         df['product_quantity_netto'] = df['price_norm'].str.split(':').str[0].replace('unknown', np.nan)

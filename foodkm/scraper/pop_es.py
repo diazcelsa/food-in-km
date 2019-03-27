@@ -34,6 +34,8 @@ def import_es(filename):
             res = es.index(index="food_in_km", doc_type='_doc', body=body)
         except:
             print(body)
+            import ipdb; ipdb.set_trace()
+            break
 
 
 def get_all_files():
@@ -45,7 +47,10 @@ def get_all_files():
 
 def import_all():
     for filename in get_all_files():
-        import_es(filename)
+        try:
+            import_es(filename)
+        except:
+            break
 
 
 if __name__ == "__main__":
