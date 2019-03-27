@@ -1,7 +1,7 @@
 import requests
 
 
-def get_latitude_longitude_from_address(GOOGLE_MAPS_API_URL, GOOGLE_MAPS_API_KEY, country, address):
+def get_latitude_longitude_google_api(GOOGLE_MAPS_API_URL, GOOGLE_MAPS_API_KEY, country, address):
 
     params = {
         'address': address,

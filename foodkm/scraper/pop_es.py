@@ -10,7 +10,7 @@ es = Elasticsearch(
 )
 
 def load_json():
-    product_file = resource_filename(__name__, 'sample/products.json')
+    product_file = resource_filename(__name__, 'df/products.json')
     with open(product_file, 'r') as f:
         return json.load(f)
 
