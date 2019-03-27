@@ -21,7 +21,7 @@ export default class map {
 
   removeAllFeatures() {
     this.features.forEach(layer => {
-      removeLayer(layer)
+      this.theMap.removeLayer(layer)
     })
   }
 
@@ -33,7 +33,7 @@ export default class map {
         'color': '#A169FF',
         'weight' : 2
       }).addTo(this.theMap);
-      
+
       let circle = L.circleMarker(loc.loc, {
         'radius' : 3,
         'color' : '#fff',

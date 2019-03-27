@@ -37,6 +37,14 @@ def make_search_query(query, lat, lon):
                 "query": query,
                 "fuzziness": "AUTO"
             }
+        },
+        "suggest": {
+            "productGroupSuggestion": {
+            "text": query,
+            "term": {
+                "field": "product_name"
+            }
+            }
         }
     }
 
