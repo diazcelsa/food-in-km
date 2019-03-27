@@ -14,14 +14,12 @@ es = Elasticsearch(
     port=os.environ['FOODKM_ES_PORT']
 )
 
-print('FOODKM_ES_HOST', os.environ['FOODKM_ES_HOST'])
-
 def make_search_query(category_child1, lat, lon):
     return {
         "sort": [
             {
                 "_geo_distance": {
-                    "location": [int(lat), int(lon)],
+                    "location": [float(lat), float(lon)],
                     "order": "asc",
                     "unit": "km",
                     "mode": "min",
