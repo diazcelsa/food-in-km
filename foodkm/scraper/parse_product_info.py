@@ -15,7 +15,11 @@ def extract_structured_product_info(all_product_info):
         products_collector = []
         names_info = [i.text for i in soup_cat.findAll('dt')]
         values_info = [i.text for i in soup_cat.findAll('dd') if i.text != '']
-        repetitions = math.ceil(len(names_info)/len(list(set(names_info))))
+        nunique_names = len(list(set(names_info)))
+        if nunique_names == 0:
+            continue
+
+        repetitions = math.ceil(len(names_info)/nunique_names)
 
         if repetitions > 1:
             product_info = {}
@@ -83,14 +87,15 @@ def define_product_general_info_object(product_info, dataset, index):
 def get_additional_info_product(soup_cat, product_info):
     # ingredients
     alerg = soup_cat.find('div', {'id':'tabla_ingredientes_alergenos'})
-    bool_alerg = alerg.find('dt')
-    if bool_alerg:
-        bool_alerg = bool_alerg.text
-        alergenic_ing = alerg.findAll('dd')
-        if len(alergenic_ing) != 0:
-            ingrdts = [i.findAll('b') for i in alergenic_ing][0]
-            product_info['Alérgenos'] = [i.text for i in ingrdts]
-            product_info[bool_alerg] = [i.text for i in alergenic_ing][0].split(',')
+    if alerg:
+        bool_alerg = alerg.find('dt')
+        if bool_alerg:
+            bool_alerg = bool_alerg.text
+            alergenic_ing = alerg.findAll('dd')
+            if len(alergenic_ing) != 0:
+                ingrdts = [i.findAll('b') for i in alergenic_ing][0]
+                product_info['Alérgenos'] = [i.text for i in ingrdts]
+                product_info[bool_alerg] = [i.text for i in alergenic_ing][0].split(',')
 
     # complementary info
     if soup_cat.find('div', {'id':"tabla_información_complementaria"}):

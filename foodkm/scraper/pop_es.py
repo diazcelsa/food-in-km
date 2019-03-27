@@ -1,6 +1,7 @@
 import json
 import pandas as pd
 import os
+import datetime
 from elasticsearch import Elasticsearch
 from pkg_resources import resource_filename
 
@@ -18,13 +19,14 @@ def load_json():
 
 
 def parse_location(sr):
-    return {'lat': sr.lat, 'lon': sr.longs}
+    return {'lat': sr.lat, 'lon': sr.lon}
 
 
 def import_es(filename):
     products = pd.read_csv(filename)
-    products['location'] = products[['lat', 'longs']].apply(parse_location, axis=1)
-    products = products.drop(['lat', 'longs'], axis=1)
+    products['location'] = products[['lat', 'lon']].apply(parse_location, axis=1)
+    products = products.drop(['lat', 'lon'], axis=1)
+    products['date_inserted'] = datetime.datetime.now()
     for index, row in products.iterrows():
         body = row.to_dict()
         body = {k: v for k, v in body.items() if not pd.isna(v)}
@@ -43,7 +45,6 @@ def get_all_files():
 def import_all():
     for filename in get_all_files():
         import_es(filename)
-
 
 
 if __name__ == "__main__":

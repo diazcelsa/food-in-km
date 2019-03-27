@@ -19,7 +19,7 @@ def get_product_info(all_product_ids):
                 contenido = get_contenido_product(driver, prod_id)
                 contenidos.append(contenido)
                 print("Add product id", prod_id)
-                time.sleep(8)
+                time.sleep(2)
                 factor = 1
                 break
             except Exception as exp:

@@ -15,15 +15,6 @@ es = Elasticsearch(
 )
 
 
-
-# @api.route("/upper")
-# async def upper(req, resp):
-#     req_json = await req.media()
-#     name = req_json['data']['name'].upper()
-#     resp_json = {'data': {'name': name}}
-#     resp.media = resp_json
-
-
 def make_search_query(category_child1, lat, lon):
     return {
         "sort": [
@@ -65,8 +56,6 @@ def search():
     results = parse_search_results(results)
     body = {'results': results}
     return jsonify(body)
-
-# ?category_child1=ACEITUNAS&lat=45&lon=12
 
 
 def run():
