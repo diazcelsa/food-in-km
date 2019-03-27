@@ -1,0 +1,64 @@
+GET /_search
+{
+    "sort" : [
+        {
+            "_geo_distance" : {
+                "location" : [-70, 40],
+                "order" : "asc",
+                "unit" : "km",
+                "mode" : "min",
+                "distance_type" : "arc",
+                "ignore_unmapped": true
+            }
+        }
+    ],
+    "query": {
+        "match_all": {}
+    }
+}
+
+GET /_search
+{
+    "sort" : [
+        {
+            "_geo_distance" : {
+                "location" : [-70, 40],
+                "order" : "asc",
+                "unit" : "km",
+                "mode" : "min",
+                "distance_type" : "arc",
+                "ignore_unmapped": true
+            }
+        }
+    ],
+    "query": {
+        "term" : { "productGroup" : "cafe" }
+    }
+}
+
+POST food_in_km/_search
+{
+  "suggest" : {
+    "productGroupSuggestion" : {
+      "text" : "cafee",
+      "term" : {
+        "field" : "productGroup"
+      }
+    }
+  }
+}
+
+
+
+PUT /food_in_km
+{
+    "mappings": {
+        "_doc": {
+            "properties": {
+                "location": {
+                    "type": "geo_point"
+                }
+            }
+        }
+    }
+}

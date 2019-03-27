@@ -1,8 +1,10 @@
 */node_modules
 .*
 !/.gitignore
-data/*
-!data/placeholder.txt
+# data/*
+# !data/placeholder.txt
 __pycache__
 */.ipynb_checkpoints
 *.egg-info/
+*.csv
+*.pkl
