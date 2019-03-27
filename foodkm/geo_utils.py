@@ -1,11 +1,12 @@
 import requests
+from foodkm import config
 
 
 def get_latitude_longitude_google_api(GOOGLE_MAPS_API_URL, GOOGLE_MAPS_API_KEY, address):
-
     params = {
         'address': address,
         'sensor': 'false',
+        'country': config.USER_COUNTRY,
         'key': GOOGLE_MAPS_API_KEY
     }
 

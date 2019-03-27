@@ -1,11 +1,8 @@
-import requests
 import pandas as pd
 import numpy as np
 from foodkm import config
-import argparse
 import os
-from foodkm.scraper.geo_utils import get_latitude_longitude_google_api
-
+from foodkm.geo_utils import get_latitude_longitude_google_api
 
 GOOGLE_MAPS_API_URL = config.GOOGLE_MAPS_API_URL
 GOOGLE_MAPS_API_KEY = config.GOOGLE_MAPS_API_KEY
@@ -25,12 +22,15 @@ def clean_and_rename(df):
 
     # criteria cleaning regex ingredients
     # df_selection = df_selection.drop(config.COL_INGREDIENTS, axis=1)
-    df_ingred['ingredients'] = df_ingred[config.COL_INGREDIENTS[0]] + '. ' +  df_ingred[config.COL_INGREDIENTS[1]] + '. ' +\
-                                            df_ingred[config.COL_INGREDIENTS[2]] + '. ' + df_ingred[config.COL_INGREDIENTS[3]]
+    df_ingred['ingredients'] = df_ingred[config.COL_INGREDIENTS[0]] + '. ' + df_ingred[
+        config.COL_INGREDIENTS[1]] + '. ' + \
+                               df_ingred[config.COL_INGREDIENTS[2]] + '. ' + df_ingred[config.COL_INGREDIENTS[3]]
 
-    df.loc[:,'ingredients'] = df_ingred['ingredients'].str.replace('"','').str.replace("'",'').str.replace('[','').str.replace(']','')\
-                                                            .str.replace(':','').str.replace('\.\.','\.').str.replace('^\. ','').str.replace('^ ','')\
-                                                            .str.replace('\\','').str.lower().tolist()
+    df.loc[:, 'ingredients'] = df_ingred['ingredients'].str.replace('"', '').str.replace("'", '').str.replace('[',
+                                                                                                              '').str.replace(
+        ']', '') \
+        .str.replace(':', '').str.replace('\.\.', '\.').str.replace('^\. ', '').str.replace('^ ', '') \
+        .str.replace('\\', '').str.lower().tolist()
 
     # Rename columns
     return update_column_names(df, config.COL_RENAME_DICT)
@@ -44,17 +44,15 @@ def extract_prices_info(df):
         pass
     try:
         df['price_netto'] = df['price_norm'].str.split(':').str[1]
-        df['product_price_netto'] = df['price_netto'].str.split(' ').str[1].str.replace(',','.').astype(float)
+        df['product_price_netto'] = df['price_netto'].str.split(' ').str[1].str.replace(',', '.').astype(float)
         df['product_quantity_netto'] = df['price_norm'].str.split(':').str[0].replace('unknown', np.nan)
-        df.drop(['price_norm','price_netto'], axis=1)
+        df.drop(['price_norm', 'price_netto'], axis=1)
     except:
         pass
     return df
 
 
-
 def get_lat_long_from_address(df):
-
     # Get all geolocation data from Google API
     lats = []
     longs = []
@@ -131,6 +129,7 @@ def main():
 
         # Save final csv
         df_geo_complete.to_csv(dest, index=False, encoding='utf-8')
+
 
 if __name__ == "__main__":
     # parser.add_argument('input', help='path to input csv file')
