@@ -21,7 +21,8 @@ setup(
         'selenium',
         'flask==1.0.2',
         'flask-cors==3.0.7',
-        'git+https://github.com/rafa-acioly/animal_case'
+        'matplotlib',
+        'seaborn'
     ],
     extras_require={
         'example': [

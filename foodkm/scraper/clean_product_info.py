@@ -14,22 +14,22 @@ def update_column_names(df, COL_RENAME_DICT):
 
 def clean_and_rename(df):
     # Drop non necesary columns
-    df_selection = df.drop(config.col_drops, axis=1)
+    df_selection = df.drop(config.COL_DROPS, axis=1)
 
     # Manage ingredients into a new data structure and select only unique
-    df_ingred = df_selection[col_ingredients]
+    df_ingred = df_selection[config.COL_INGREDIENTS]
 
     # criteria cleaning regex ingredients
-    df_selection = df_selection.drop(col_ingredients, axis=1)
-    df_ingred['ingredients'] = df_ingred[col_ingredients[0]] + '. ' +  df_ingred[col_ingredients[1]] + '. ' +\
-                                            df_ingred[col_ingredients[2]] + '. ' + df_ingred[col_ingredients[3]]
+    df_selection = df_selection.drop(config.COL_INGREDIENTS, axis=1)
+    df_ingred['ingredients'] = df_ingred[config.COL_INGREDIENTS[0]] + '. ' +  df_ingred[config.COL_INGREDIENTS[1]] + '. ' +\
+                                            df_ingred[config.COL_INGREDIENTS[2]] + '. ' + df_ingred[config.COL_INGREDIENTS[3]]
 
     df_selection.loc[:,'ingredients'] = df_ingred['ingredients'].str.replace('"','').str.replace("'",'').str.replace('[','').str.replace(']','')\
                                                             .str.replace(':','').str.replace('\.\.','\.').str.replace('^\. ','').str.replace('^ ','')\
                                                             .str.replace('\\','').str.lower().tolist()
 
     # Rename columns
-    return update_column_names(df_selection, COL_RENAME_DICT)
+    return update_column_names(df_selection, config.COL_RENAME_DICT)
 
 def extract_prices_info(df):
     # Get price netto and quantity as different columns
@@ -106,18 +106,18 @@ def get_all_product_id_files():
 def main():
     for source, dest in get_all_product_id_files():
         df = pd.read_csv(source)
-
+        
         # clean product info
         df_clean = clean_and_rename(df)
-
+        
         # format net prices
         df_complete = extract_prices_info(df_clean)
-
+        
         # Get latitude/longitude
         df_geo_complete = get_lat_long_from_address(df_complete)
 
         # Save final csv
-        clean_df.to_csv(dest, index=False, encoding='utf-8')
+        df_geo_complete.to_csv(dest, index=False, encoding='utf-8')
 
 if __name__ == "__main__":
     # parser.add_argument('input', help='path to input csv file')
