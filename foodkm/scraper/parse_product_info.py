@@ -58,8 +58,8 @@ def extract_structured_product_info(all_product_info):
             names_info = [i.text for i in soup_cat.findAll('dt')]
             values_info = [i.text for i in soup_cat.findAll('dd')]
             if names_info:
-                for i, name in enumerate(names_info):
-                    product_info[name] = values_info[i]
+                for name, value in zip(names_info, values_info):
+                    product_info[name] = value
 
             product_info = get_additional_info_product(soup_cat, product_info)
             products_collector.append(product_info)
