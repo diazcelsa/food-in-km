@@ -8,11 +8,8 @@ const StatusBar = (
     const statusbar = (  totalKM ?   <div className="status-bar-range">{totalMinRange.toFixed(0)}km<progress max="100" value={totalKMPro.toFixed(0)}> {totalKMPro.toFixed(0)}% </progress>{totalMaxRange.toFixed(0)}km</div>:null)
     return (
         <div id="status-bar">
-        <div className="status-bar-title">Totales</div>
-        <div className="status-bar-price">{(totalPrice ? totalPrice.toFixed(0) : 0)}€</div>
-        <div className="status-bar-km">{(totalKM ? totalKM.toFixed(0) : 0)}km</div>
-        {statusbar}
-        <button className="button" id="add-to-cart-button" onClick={onCheckout}>Ver carrito</button>
+            <button className="button" id="add-to-cart-button" onClick={onCheckout}>Analizar</button>
+            <button className="button" id="back-to-location" onClick={onCheckout}>Cambiar locacion</button>
         </div>
     )
 }
