@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { useState } from 'react';
 
 const ProductListSearchBox = ({onChange, suggest=[]}) => (
-        <div id="product-list-search-box">
+        <div id="product-list-search-box" className="search-box">
             <input type="text" list="suggestions"
                 placeholder='Buscar producto...'
                 onInput={evt => onChange(evt.target.value)}

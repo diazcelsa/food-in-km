@@ -10,7 +10,7 @@ const StatusBar = (
         <div className="status-bar-price">{totalPrice.toFixed(2)}€</div>
         <div className="status-bar-km">{totalKM.toFixed(0)}km</div>
         <div className="status-bar-range">{totalMinRange.toFixed(0)}km<progress max="100" value={totalKMPro.toFixed(0)}> {totalKMPro.toFixed(0)}% </progress>{totalMaxRange.toFixed(0)}km</div>
-        <button id="add-to-cart-button" onClick={onCheckout}>Ver carrito</button>
+        <button className="button" id="add-to-cart-button" onClick={onCheckout}>Ver carrito</button>
         </div>
     )
 }
