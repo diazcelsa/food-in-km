@@ -2,14 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux';
 import * as a from '../actions';
 
-const StatusBar = (
-        {totalPrice=70,totalKM=1300,onCheckout,totalMinRange,totalMaxRange}) => {
-    const totalKMPro = (totalKM ? (totalKM - totalMinRange) / (totalMaxRange - totalMinRange) * 100 : 0);
-    const statusbar = (  totalKM ?   <div className="status-bar-range">{totalMinRange.toFixed(0)}km<progress max="100" value={totalKMPro.toFixed(0)}> {totalKMPro.toFixed(0)}% </progress>{totalMaxRange.toFixed(0)}km</div>:null)
+const StatusBar = ({onCheckout,changeLocation}) => {
+    // const totalKMPro = (totalKM ? (totalKM - totalMinRange) / (totalMaxRange - totalMinRange) * 100 : 0);
+    // const statusbar = (  totalKM ?   <div className="status-bar-range">{totalMinRange.toFixed(0)}km<progress max="100" value={totalKMPro.toFixed(0)}> {totalKMPro.toFixed(0)}% </progress>{totalMaxRange.toFixed(0)}km</div>:null)
     return (
         <div id="status-bar">
             <button className="button" id="add-to-cart-button" onClick={onCheckout}>Analizar</button>
-            <button className="button" id="back-to-location" onClick={onCheckout}>Cambiar locacion</button>
+            <button className="button" id="back-to-location" onClick={changeLocation}>Cambiar locacion</button>
         </div>
     )
 }
@@ -35,7 +34,8 @@ const BasketContainer = connect(
         basket: state.basket
     }),
     (dispatch, ownProps) => ({
-        onCheckout: (value) => dispatch(a.updateUi({cardViewOverlayOpen: true}))
+        onCheckout: (value) => dispatch(a.updateUi({cardViewOverlayOpen: true})),
+        changeLocation: (value) => dispatch(a.updateUi({addressSearchOverlayOpen: true})),
     })
 )(BasketComponent)
 
