@@ -5,7 +5,8 @@ final_product_info_clean = "data/product_complete/product_info_complete_clean.cs
 
 # google API config
 GOOGLE_MAPS_API_URL = 'https://maps.googleapis.com/maps/api/geocode/json?'
-GOOGLE_MAPS_API_KEY = os.environ['GOOGLE_API_KEYS'].split('[')[1].split(']')[0].split(',')[0]
+GOOGLE_MAPS_API_KEY = os.environ['GOOGLE_API_KEYS']
+# .split('[')[1].split(']')[0].split(',')[0]
 
 # Column selection per group
 PRODUCT_INFO = ['product_id', 'Código EAN Producto:', 'Nombre Alimento:', 'Cantidad Neta:']
