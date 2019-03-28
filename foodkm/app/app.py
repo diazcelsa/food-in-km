@@ -36,14 +36,22 @@ def make_search_query(query, lat, lon):
             "multi_match": {
                 "fields": ["product_name"],
                 "query": query,
-                "fuzziness": "AUTO"
+                "fuzziness": "0"
             }
         },
+        "sort": [
+            {
+                "price": "asc"
+            }
+        ],
         "suggest": {
             "suggestions": {
                 "text": query,
                 "term": {
-                    "field": "product_name"
+                    "suggest_mode": "popular",
+                     "min_word_length": 3,
+                    "field": "product_name",
+                    "size": 5,
                 }
             }
         }
@@ -59,6 +67,8 @@ def parse_search_result(hit):
 def parse_search_results(results):
     hits = results['hits']['hits']
     suggest = results['suggest']['suggestions']
+    if suggest:
+        suggest = suggest[0]['options']
     return [parse_search_result(h) for h in hits], suggest
 
 
@@ -83,10 +93,13 @@ def get_user_location(postal_code):
 @app.route("/location")
 def location():
     user_geo_location = {}
-    lat, lon = get_user_location(request.args.get('postal_code'))
-    user_geo_location['lat'] = lat
-    user_geo_location['lon'] = lon
-    return jsonify(user_geo_location)
+    try:
+        lat, lon = get_user_location(request.args.get('query'))
+        user_geo_location['lat'] = lat
+        user_geo_location['lon'] = lon
+        return jsonify(user_geo_location)
+    except:
+        return jsonify({'error': 'NOT_FOUND'})
 
 
 def run():

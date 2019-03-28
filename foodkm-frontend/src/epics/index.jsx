@@ -1,7 +1,7 @@
 import { ajax } from 'rxjs/ajax';
 import { combineEpics, ofType } from 'redux-observable';
 import { of } from 'rxjs';
-import { map, catchError, concatMap, tap, withLatestFrom } from 'rxjs/operators';
+import { map, catchError, concatMap, tap, withLatestFrom, filter } from 'rxjs/operators';
 import * as a from '../actions';
 import { BACKEND_URL } from '../config'
 
@@ -23,7 +23,7 @@ const productSearchEpic = (action$, state$) => (
             (action) => (
                 ajax.get(action.url).pipe(
                     tap(console.log, console.log),
-                    map(response => a.updateProducts(response.response.results))
+                    map(response => a.updateProducts(response.response.results, response.response.suggest))
                 )
             )
         ),
@@ -32,11 +32,36 @@ const productSearchEpic = (action$, state$) => (
 );
 
 
+const makeLocationURL = (action, state) => {
+    const query = action.query;
+    return (BACKEND_URL + '/location?query=' + query)
+}
+
+
+const locationSearchEpic = (action$, state$) => (
+    action$.pipe(
+        ofType('LOCATION_SEARCH'),
+        filter(({query}) => (query.length == 5)),
+        withLatestFrom(state$),
+        map(([action, state]) => ({url: makeLocationURL(action, state)})),
+        tap(console.log, console.log),
+        concatMap(
+            (action) => (
+                ajax.get(action.url).pipe(
+                    tap(console.log, console.log),
+                    filter(response => (response.response.lat)),
+                    map(response => a.locationUpdate(response.response))
+                )
+            )
+        ),
+        catchError(val => of(a.error('Could not update products.', val)))
+    )
+);
 
 
 const epics = combineEpics(
     productSearchEpic,
-
+    locationSearchEpic
 );
 
 export default epics;

@@ -6,10 +6,18 @@ export const locationUpdate = ({lat, lon}) => {
     };
 }
 
-export const updateProducts = (products) => {
+export const searchLocation = (query) => {
+    return {
+      type: 'LOCATION_SEARCH',
+      query
+    };
+}
+
+export const updateProducts = (products,suggest) => {
   return {
     type: 'PRODUCTS_UPDATE',
-    products
+    products,
+    suggest
   };
 }
 

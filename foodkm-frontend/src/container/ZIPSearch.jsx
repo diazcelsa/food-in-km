@@ -2,31 +2,28 @@ import React from 'react'
 import _ from 'lodash';
 import * as a from '../actions';
 import { connect } from 'react-redux';
-import { useState } from 'react';
 
-const ProductListSearchBox = ({onChange, suggest=[]}) => (
+const ZIPSearchBox = ({onChange}) => (
         <div id="product-list-search-box">
-            <input type="text" list="suggestions"
-                placeholder='Buscar producto...'
+            <input type="text" list="zip"
+                placeholder='Buscar zip...'
                 onInput={evt => onChange(evt.target.value)}
             />
-            <datalist id="suggestions">
+            {/* <datalist id="suggestions">
                 {suggest.map(({text}, idx)=> <option value={text} key={'suggest-' + idx} />)}
-            </datalist>
+            </datalist> */}
             <div className="search-box-icon"></div>
             <div id="autocomplete-box">
             </div>
         </div>
 )
 
-const ProductListSearchBoxContainer = connect(
+const ZIPSearchBoxContainer = connect(
     (state, ownProps) => ({
-        list: state.productList,
-        suggest: state.suggest
     }),
     (dispatch, ownProps) => ({
-        onChange: (value) => dispatch(a.searchProducts(value))
+        onChange: (value) => dispatch(a.searchLocation(value))
     })
-)(ProductListSearchBox)
+)(ZIPSearchBox)
 
-export default ProductListSearchBoxContainer
+export default ZIPSearchBoxContainer

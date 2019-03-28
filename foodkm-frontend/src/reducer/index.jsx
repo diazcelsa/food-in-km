@@ -34,21 +34,21 @@ const locationReducer = (location={lat: 40.4, lon: -3.68}, action) => {
 let productsDummy = [
 {
     'product_name' : 'Arroz',
-    'price' : '1€',
-    'distance': '33.4km',
-    'loc' : [41.582578,0.603605]
+    'price' : 1,
+    'distance': 33.4,
+    'location' : {'lat': 41.582578, 'lon': 0.603605}
 },
 {
     'product_name' : 'Chocolate',
-    'price' : '130€',
-    'distance': '33.4km',
-    'loc' : [33.601301, 5.290211]
+    'price' : 130,
+    'distance': 33.4,
+    'location' : {'lat': 33.601301, 'lon': 5.290211}
 },
 {
     'product_name' : 'TEST',
-    'price' : '12€',
-    'distance': '83.4km',
-    'loc' : [36.803759,-2.541634]
+    'price' : 12,
+    'distance': 83.4,
+    'location' : {'lat': 36.803759, 'lon': -2.541634}
 },
 ]
 
@@ -61,12 +61,22 @@ const productsReducer = (products = productsDummy, action) => {
     }
 }
 
+const suggestReducer = (suggest = [], action) => {
+    switch (action.type) {
+        case 'PRODUCTS_UPDATE':
+            return action.suggest
+        default:
+            return suggest;
+    }
+}
+
+
 const basketReducer = (basket = [], action) => {
     switch (action.type) {
         case 'BASKET_ADD':
             return [...basket, action.product]
         case 'BASKET_REMOVE':
-            return [...array.slice(0, action.index), ...array.slice(action.index + 1)]
+            return [...basket.slice(0, action.index), ...basket.slice(action.index + 1)]
         default:
             return basket;
     }
@@ -77,7 +87,8 @@ const reducers = combineReducers({
     errors: errorReducer,
     location: locationReducer,
     products: productsReducer,
-    basket: basketReducer
+    basket: basketReducer,
+    suggest: suggestReducer
 });
 
 export default reducers;

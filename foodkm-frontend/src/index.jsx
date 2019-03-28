@@ -17,8 +17,10 @@ import reducers from "./reducer";
 import ErrorsContainer from './container/error';
 import ProductListSearchBox from './container/ProductListSearchBox';
 import ProductList from './container/ProductList';
+import CardList from './container/CardList';
 import MapComponent from './map/MapComponent';
 import StatusBar from './container/StatusBar';
+import ZIPSearch from './container/ZIPSearch';
 
 
 class Index extends React.Component {
@@ -38,6 +40,7 @@ class Index extends React.Component {
         return (
         <div id="cart-wrapper">
             <ErrorsContainer/>
+            <ZIPSearch/>
             <ProductListSearchBox/>
 
             <div id="cart-wrapper-body">
@@ -56,6 +59,17 @@ class Index extends React.Component {
                     <div className="inner">
                         <ProductList/>
                     </div>
+
+                     </div>
+                     <div id="product-list-panel">
+                     <div className="product-list-item header-row">
+                       <div className="product-list-item-name">Producto</div>
+                       <div className="product-list-item-price">Precio</div>
+                       <div className="product-list-item-km">Distancia</div>
+                     </div>
+                     <div className="inner">
+                         <CardList/>
+                     </div>
                 </div>
             </div>
             <StatusBar/>

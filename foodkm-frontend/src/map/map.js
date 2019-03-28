@@ -8,15 +8,23 @@ export default class map {
 
     this.theMap = L.map('map', {
       center: this.center,
-      zoom: 13
+      zoom: 7
     });
 
     let layer = new L.StamenTileLayer("toner-lite");
     this.theMap.addLayer(layer);
 
-
-
     this.features = []
+  }
+
+  updateCenter(center) {
+      this.center = center;
+  }
+
+  resetView() {
+    this.theMap.setZoom(7);
+    this.theMap.setView(this.center);
+    this.removeAllFeatures();
   }
 
   removeAllFeatures() {
@@ -41,7 +49,8 @@ export default class map {
         'fillOpacity': 1,
         'fillColor': '#A169FF'
       }).addTo(this.theMap);
-      this.features.push(line)
+      this.features.push(line);
+      this.features.push(circle);
     })
 
     let circle = L.circleMarker(this.center, {
