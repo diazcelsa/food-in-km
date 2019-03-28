@@ -147,7 +147,6 @@ html, body {
   width: 30%;
   padding-left: 5%;
   float: left;
-  padding: 0;
   position: relative;
   top: -5px;
 }
@@ -174,7 +173,7 @@ html, body {
 }
 
 .product-list-item-datum {
-  color: #A169FF;
+  color: #FF530D;
   font-family: monospace;
   font-size: 16px;
   margin: 5px 0 15px 0;
@@ -210,11 +209,13 @@ html, body {
   position: relative;
   top: 10px;
   right: 10px;
-  background: #A169FF;
+  background: #FF530D;
   border: none;
   border-radius: 4px;
   cursor: pointer;
 }
+
+
 
 #back-to-location {
   background: #999;
@@ -242,6 +243,10 @@ html, body {
 
 .cart-view-is-active#cart-view-overlay {
   display: block;
+}
+
+#cart-view-overlay {
+  display: none;
 }
 
 #zip-search-overlay .button {
@@ -300,4 +305,59 @@ html, body {
   border-bottom: none;
   position: relative;
   left: 1px;
+}
+
+.barns {
+  width: 100%;
+}
+
+.barns:after {
+  content: ' ';
+  display: block;
+  clear: both;
+}
+
+.barns h3 {
+
+}
+
+.barn-unit {
+  width: 50%;
+  float: left;
+}
+
+.barn-unit strong {
+  font-size: 11vw;
+  line-height: .8em;
+  letter-spacing: -.2vw;
+  font-weight: 100;
+  color: #FF530D;
+}
+
+.barn-unit strong span {
+  font-size: 5vw;
+  font-weight: 100; 
+  color: #FF530D;
+}
+
+.barn-unit em {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: block;
+  font-style: normal;
+  margin-bottom: 24px;
+  margin-top: 20px;
+  padding-top: 10px;
+  margin-right: 20px;
+  border-top: 3px solid #4a4a4a;
+
+}
+
+#cart-view-overlay h3 {
+  font-size: 36px;
+  padding: 10px 0 20px 0;
+  margin: 60px 0 0 0;
+  border-top: 6px solid #4a4a4a;
+
 }

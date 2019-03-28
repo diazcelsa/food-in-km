@@ -16,10 +16,33 @@ const CardListItem = ({product_brand,product_name,price,distance,idx,onClick}) =
 const ProductList = ({basket=dummy, onClick, closeOverlay, cardViewOverlayOpen}) => {
     return (
 
-    <div id="cart-view-overlay" className={"gray-overlay " + (cardViewOverlayOpen ? 'cart-view-is-active' : null)}>
-      <button className="close-button" onClick={closeOverlay} >×</button>
-      <div className="padded-container" style={{width: "90%"}}>
-        <h3>Productos seleccionados</h3>
+    <div id="cart-view-overlay" className={(cardViewOverlayOpen ? 'cart-view-is-active' : null)}>
+
+        <div className="barns">
+        <h3>Resumen de tu compra</h3>
+
+          <div className="barn-unit">
+            <em>Cantidad de productos</em>
+            <strong>12</strong>
+          </div>
+
+          <div className="barn-unit">
+            <em>Gasto total</em>
+            <strong>230.10<span>€</span></strong>
+          </div>
+
+          <div className="barn-unit">
+            <em>Distancia total</em>
+            <strong>4200<span>km</span></strong>
+          </div>
+
+          <div className="barn-unit">
+            <em>Distancia promedia</em>
+            <strong>29.6<span>km</span></strong>
+          </div>
+
+
+        </div>
         {_.map(basket, (listItem, idx) => (
             <CardListItem
                 {...listItem} key={'product_'+idx}
@@ -27,7 +50,6 @@ const ProductList = ({basket=dummy, onClick, closeOverlay, cardViewOverlayOpen})
             />
         ))}
 
-              </div>
             </div>
     )
 }

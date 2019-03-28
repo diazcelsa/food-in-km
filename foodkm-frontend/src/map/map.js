@@ -8,7 +8,9 @@ export default class map {
 
     this.theMap = L.map('map', {
       center: this.center,
-      zoom: 7
+      zoom: 7,
+      dragging: false,
+      zoomControl: false
     });
 
     let layer = new L.StamenTileLayer("toner-lite");
@@ -38,7 +40,7 @@ export default class map {
 
     locations.forEach(loc => {
       let line = L.polyline([this.center,loc.loc],{
-        'color': '#A169FF',
+        'color': '#FF530D',
         'weight' : 2
       }).addTo(this.theMap);
 
@@ -47,7 +49,7 @@ export default class map {
         'color' : '#fff',
         'weight' : 1,
         'fillOpacity': 1,
-        'fillColor': '#A169FF'
+        'fillColor': '#FF530D'
       }).addTo(this.theMap);
       this.features.push(line);
       this.features.push(circle);

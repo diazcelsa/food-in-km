@@ -1,25 +1,10 @@
-import React from 'react';
-import * as a from '../actions';
-import { connect } from 'react-redux';
+import React from 'react'
 
-const TabMenu = ({inCart=0,resultCount=0,searchActive, onClickResults, onClickChart}) => (
+const TabMenu = ({list,inCart=0,resultCount=0,onClick}) => (
     <div id="tab-menu">
-      <button className={(searchActive ? "is-active" : '')} onClick={onClickResults}>Resultados ({resultCount})</button>
-      <button className={(searchActive ? '' : "is-active")} onClick={onClickChart}>Canasta ({inCart})</button>
+      <button className="is-active">Resultados ({resultCount})</button>
+      <button>Canasta ({inCart})</button>
     </div>
 )
 
-const TabMenuContainer = connect(
-    (state, ownProps) => ({
-        resultCount: state.products.length,
-        inCart: state.basket.length,
-        searchActive: state.ui.searchActive
-    }),
-    (dispatch, ownProps) => ({
-        onClickResults: () => dispatch(a.updateUi({searchActive: true})),
-        onClickChart: () => dispatch(a.updateUi({searchActive: false}))
-    })
-)(TabMenu)
-
-export default TabMenuContainer
-
+export default TabMenu
