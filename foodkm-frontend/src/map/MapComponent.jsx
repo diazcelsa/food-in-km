@@ -51,7 +51,7 @@ class MapComponent extends React.Component {
         //     'center' : [this.props.location.lat,this.props.location.lon]
         // });
         const locations = this.props.products.map(
-            ({location, product_name}) => ({name: product_name, loc: [location.lat, location.lon]}))
+            ({location, product_name, distance}) => ({product: {product_name, distance},  loc: [location.lat, location.lon]}))
         if (locations.length > 0) {
             this.theMap.addLocations(locations);
         } else {
