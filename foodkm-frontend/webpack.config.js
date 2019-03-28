@@ -1,24 +1,38 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+
+const cssPlugin = new ExtractTextPlugin("styles.css");
+
 
 const htmlPlugin = new HtmlWebPackPlugin({
-  template: "./src/index.html",
+  template: "./index.html",
   filename: "./index.html"
 });
 
 
 const copyConfig = new CopyWebpackPlugin([{
-  from: './src/production.js',
+  from: './production.js',
   to: './config.js',
   toType: 'file'
 }])
 
 
 module.exports = {
-    entry: "./src/index.jsx",
+    entry: {
+        index: './index.jsx',
+        map: './map/map.js'
+    },
+    context: __dirname + "/src",
     output: {
-      filename: "bundle.js",
+      filename: "[name].bundle.js",
       path: __dirname + "/dist"
+    },
+    optimization: {
+      splitChunks: {
+        chunks: 'all'
+      }
     },
 
     mode: "development",
@@ -30,7 +44,7 @@ module.exports = {
       extensions: [".ts", ".tsx", ".js", ".json", ".jsx"]
     },
 
-    plugins: [htmlPlugin, copyConfig],
+    plugins: [htmlPlugin, copyConfig, cssPlugin],
 
     module: {
       rules: [
@@ -46,8 +60,11 @@ module.exports = {
           }
         },
         {
-          test: /\.css$/,
-          use: ["style-loader", "css-loader"]
+            test: /\.css$/,
+            use: ExtractTextPlugin.extract({
+              fallback: "style-loader",
+              use: "css-loader"
+            })
         },
         {
             test: /\.(woff|woff2|eot|ttf|svg|gif)$/,
