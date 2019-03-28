@@ -1,5 +1,12 @@
 import requests
 from foodkm import config
+import logging
+
+log = logging.getLogger(__name__)
+
+
+log.setLevel(logging.INFO)
+log.addHandler(logging.StreamHandler())
 
 
 def get_latitude_longitude_google_api(GOOGLE_MAPS_API_URL, GOOGLE_MAPS_API_KEY, address):
@@ -13,6 +20,8 @@ def get_latitude_longitude_google_api(GOOGLE_MAPS_API_URL, GOOGLE_MAPS_API_KEY, 
     # Do the request and get the response data
     req = requests.get(GOOGLE_MAPS_API_URL, params=params)
     res = req.json()
+
+    log.info(res)
 
     # Use the first result
     if res['results']:
