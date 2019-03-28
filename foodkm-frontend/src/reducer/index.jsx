@@ -31,6 +31,21 @@ const locationReducer = (location={lat: 40.4, lon: -3.68}, action) => {
     }
 }
 
+
+
+
+const uiReducer = (ui={ addressSearchOverlayOpen: true, cardViewOverlayOpen: false}, action) => {
+    switch (action.type) {
+        case 'LOCATION_UPDATE':
+            return {cardViewOverlayOpen: false, addressSearchOverlayOpen: false}
+        case 'CHECKOUT_BASKET':
+            return {cardViewOverlayOpen: true, addressSearchOverlayOpen: false}
+        default:
+            return ui;
+    }
+}
+
+
 let productsDummy = [
 {
     'product_name' : 'Arroz',
@@ -84,6 +99,7 @@ const basketReducer = (basket = [], action) => {
 
 const reducers = combineReducers({
     name: nameReducer,
+    ui: uiReducer,
     errors: errorReducer,
     location: locationReducer,
     products: productsReducer,

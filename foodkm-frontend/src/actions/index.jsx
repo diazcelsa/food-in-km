@@ -7,6 +7,13 @@ export const locationUpdate = ({lat, lon, address}) => {
     };
 }
 
+export const backetCheckout = () => {
+    return {
+      type: 'CHECKOUT_BASKET',
+    };
+}
+
+
 export const searchLocation = (query) => {
     return {
       type: 'LOCATION_SEARCH',

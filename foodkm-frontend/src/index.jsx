@@ -50,29 +50,23 @@ class Index extends React.Component {
                 </div>
 
                 <div id="product-list-panel">
-                    <div className="product-list-item header-row">
-                      <div className="product-list-item-name">Producto</div>
-                      <div className="product-list-item-price">Precio</div>
-                      <div className="product-list-item-km">Distancia</div>
-                    </div>
+                    
+                  <div className="product-list-item header-row">
+                    <div className="product-list-item-name">Producto</div>
+                    <div className="product-list-item-price">Precio</div>
+                    <div className="product-list-item-km">Distancia</div>
+                  </div>
 
-                    <div className="inner">
-                        <ProductList/>
-                    </div>
+                  <div className="inner">
+                      <ProductList/>
+                  </div>
 
-                     </div>
-                     <div id="product-list-panel">
-                     <div className="product-list-item header-row">
-                       <div className="product-list-item-name">Producto</div>
-                       <div className="product-list-item-price">Precio</div>
-                       <div className="product-list-item-km">Distancia</div>
-                     </div>
-                     <div className="inner">
-                         <CardList/>
-                     </div>
                 </div>
+                
             </div>
+
             <StatusBar/>
+            <CardList/>
         </div>)
     }
 }
