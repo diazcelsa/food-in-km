@@ -71,6 +71,9 @@ export default class map {
       return d.loc[1]
     })
 
+    lonExtents = [Math.min(lonExtents[0], this.center[1]), Math.max(lonExtents[1], this.center[1])]
+    latExtents = [Math.min(latExtents[0], this.center[0]), Math.max(latExtents[1], this.center[0])]
+
     this.theMap.fitBounds([
       [latExtents[0],lonExtents[0]],
       [latExtents[1],lonExtents[1]]

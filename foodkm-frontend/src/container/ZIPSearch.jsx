@@ -3,7 +3,7 @@ import _ from 'lodash';
 import * as a from '../actions';
 import { connect } from 'react-redux';
 
-const ZIPSearchBox = ({onChange}) => (
+const ZIPSearchBox = ({onChange, address}) => (
         <div id="product-list-search-box">
             <input type="text" list="zip"
                 placeholder='Buscar zip...'
@@ -14,12 +14,14 @@ const ZIPSearchBox = ({onChange}) => (
             </datalist> */}
             <div className="search-box-icon"></div>
             <div id="autocomplete-box">
+                {address}
             </div>
         </div>
 )
 
 const ZIPSearchBoxContainer = connect(
     (state, ownProps) => ({
+        address: state.location.address
     }),
     (dispatch, ownProps) => ({
         onChange: (value) => dispatch(a.searchLocation(value))

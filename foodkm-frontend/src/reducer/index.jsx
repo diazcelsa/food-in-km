@@ -25,7 +25,7 @@ const errorReducer = (error = [], action) => {
 const locationReducer = (location={lat: 40.4, lon: -3.68}, action) => {
     switch (action.type) {
         case 'LOCATION_UPDATE':
-            return {lat: action.lat, lon: action.lon}
+            return {lat: action.lat, lon: action.lon, address: action.address}
         default:
             return location;
     }

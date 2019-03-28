@@ -18,8 +18,19 @@ def get_lat_long_from_address(df):
     states = []
     countries = []
     postal_codes = []
+    address_types = []
 
-    for address in df['Dirección Proveedor:'].tolist():
+    for idx, row in df.iterrows():
+        origen = row['Pais Origen:']
+        provider = row['Dirección Proveedor:']
+        if not pd.isnull(origen) and origen.lower() != 'españa':
+            address = origen
+            address_type = 'origin'
+        else:
+            address = provider
+            address_type = 'supplier'
+
+        address_types.append(address_type)
         try:
             geodata = get_latitude_longitude_google_api(GOOGLE_MAPS_API_URL, GOOGLE_MAPS_API_KEY, address)
             lats.append(geodata['lat'])
@@ -42,12 +53,15 @@ def get_lat_long_from_address(df):
             countries.append('')
             postal_codes.append('')
 
+        # print(origen, ' ||| ' , provider, ' ||| ' ,address_type, '|||', countries[-1], '|||', row['Nombre Proveedor:'])
+
     df['lat'] = lats
     df['lon'] = longs
     df['address'] = addresses
     df['locality'] = localities
     df['province'] = provinces
     df['address'] = addresses
+    df['address_type'] = address_types
     df['state'] = states
     df['country'] = countries
     df['postal_code'] = postal_codes

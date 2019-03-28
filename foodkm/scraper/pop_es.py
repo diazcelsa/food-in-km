@@ -2,6 +2,7 @@ import json
 import pandas as pd
 import os
 import datetime
+import random
 from elasticsearch import Elasticsearch
 from pkg_resources import resource_filename
 
@@ -30,6 +31,12 @@ def import_es(filename):
     for index, row in products.iterrows():
         body = row.to_dict()
         body = {k: v for k, v in body.items() if not pd.isna(v)}
+
+        allergens = ['lactosa', 'gluten', 'soja', 'cerbada']
+        random.shuffle(allergens)
+        body['allergens'] = allergens[:random.randint(0, 3)]
+
+        body['additives'] = random.randint(0, 15)
         try:
             res = es.index(index="food_in_km", doc_type='_doc', body=body)
         except:

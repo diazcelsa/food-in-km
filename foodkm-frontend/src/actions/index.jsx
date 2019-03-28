@@ -1,8 +1,9 @@
-export const locationUpdate = ({lat, lon}) => {
+export const locationUpdate = ({lat, lon, address}) => {
     return {
       type: 'LOCATION_UPDATE',
       lat,
-      lon
+      lon,
+      address
     };
 }
 

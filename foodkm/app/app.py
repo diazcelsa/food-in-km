@@ -16,7 +16,8 @@ es = Elasticsearch(
     port=os.environ['FOODKM_ES_PORT']
 )
 
-def make_search_query(query, lat, lon):
+
+def make_search_query(query, lat, lon, fields):
     return {
         "size": 50,
         "_source": True,
@@ -34,9 +35,11 @@ def make_search_query(query, lat, lon):
         },
         "query": {
             "multi_match": {
-                "fields": ["product_name"],
+                "fields": fields,
                 "query": query,
-                "fuzziness": "0"
+                "type": 'cross_fields',
+                # "fuzziness": "0",
+                "operator": "and"
             }
         },
         "sort": [
@@ -49,7 +52,7 @@ def make_search_query(query, lat, lon):
                 "text": query,
                 "term": {
                     "suggest_mode": "popular",
-                     "min_word_length": 3,
+                    "min_word_length": 3,
                     "field": "product_name",
                     "size": 5,
                 }
@@ -76,27 +79,32 @@ def parse_search_results(results):
 def search():
     req_args = ['query', 'lat', 'lon']
     query_args = {ra: request.args.get(ra) for ra in req_args}
-    query = make_search_query(**query_args)
+    query = make_search_query(**query_args, fields=["category_child1", "category_child2", "product_name"])
     results = es.search(index="food_in_km", doc_type="_doc", body=query)
+    # if len(results['hits']['hits']) < 2:
+    #     query = make_search_query(**query_args, fields=["category_child1", "category_child2",  "product_name"])
+    #     results = es.search(index="food_in_km", doc_type="_doc", body=query)
     results, suggest = parse_search_results(results)
     body = {'results': results, 'suggest': suggest}
     return jsonify(body)
 
 
 def get_user_location(postal_code):
-    address = postal_code + ", " + config.USER_COUNTRY
+    address = postal_code + " " + config.USER_COUNTRY
     geodata = get_latitude_longitude_google_api(
         config.GOOGLE_MAPS_API_URL, config.GOOGLE_MAPS_API_KEY, address)
-    return geodata['lat'], geodata['lon']
+    return geodata['lat'], geodata['lon'], geodata['address']
 
 
 @app.route("/location")
 def location():
     user_geo_location = {}
     try:
-        lat, lon = get_user_location(request.args.get('query'))
+        lat, lon, address = get_user_location(request.args.get('query'))
         user_geo_location['lat'] = lat
         user_geo_location['lon'] = lon
+        user_geo_location['address'] = address
+
         return jsonify(user_geo_location)
     except:
         return jsonify({'error': 'NOT_FOUND'})

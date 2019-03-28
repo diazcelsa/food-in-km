@@ -44,7 +44,8 @@ LOCATION_COL = [
     'province',
     'state',
     'country',
-    'postal_code'
+    'postal_code',
+    'address_type'
 ]
 
 
