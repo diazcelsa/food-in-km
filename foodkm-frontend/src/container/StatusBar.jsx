@@ -13,20 +13,20 @@ const StatusBar = ({onCheckout,changeLocation}) => {
     )
 }
 
-const BasketComponent = ({basket,onCheckout}) => {
-    const totalPrice = _.sum(basket.map(({price}) => price));
-    const totalKM = _.sum(basket.map(({distance}) => distance));
-    const totalMinRange = _.sum(basket.map(({minRange}) => minRange));
-    const totalMaxRange = _.sum(basket.map(({maxRange}) => maxRange));
-    return (
-    <StatusBar
-        totalPrice={totalPrice}
-        totalKM={totalKM}
-        onCheckout={onCheckout}
-        totalMinRange={totalMinRange}
-        totalMaxRange={totalMaxRange}
-    />)
-};
+// const BasketComponent = ({onCheckout, changeLocation}) => {
+//     // const totalPrice = _.sum(basket.map(({price}) => price));
+//     // const totalKM = _.sum(basket.map(({distance}) => distance));
+//     // const totalMinRange = _.sum(basket.map(({minRange}) => minRange));
+//     // const totalMaxRange = _.sum(basket.map(({maxRange}) => maxRange));
+//     return (
+//     <StatusBar
+//         totalPrice={totalPrice}
+//         totalKM={totalKM}
+//         onCheckout={onCheckout}
+//         totalMinRange={totalMinRange}
+//         totalMaxRange={totalMaxRange}
+//     />)
+// };
 
 
 const BasketContainer = connect(
@@ -37,6 +37,6 @@ const BasketContainer = connect(
         onCheckout: (value) => dispatch(a.updateUi({cardViewOverlayOpen: true})),
         changeLocation: (value) => dispatch(a.updateUi({addressSearchOverlayOpen: true})),
     })
-)(BasketComponent)
+)(StatusBar)
 
 export default BasketContainer
