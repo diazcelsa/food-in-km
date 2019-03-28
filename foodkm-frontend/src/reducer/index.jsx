@@ -38,8 +38,8 @@ const uiReducer = (ui={ addressSearchOverlayOpen: true, cardViewOverlayOpen: fal
     switch (action.type) {
         case 'LOCATION_UPDATE':
             return {cardViewOverlayOpen: false, addressSearchOverlayOpen: false}
-        case 'CHECKOUT_BASKET':
-            return {cardViewOverlayOpen: true, addressSearchOverlayOpen: false}
+        case 'UI_UPDATE':
+            return {...ui, ...action.ui}
         default:
             return ui;
     }

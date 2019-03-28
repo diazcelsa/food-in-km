@@ -7,9 +7,10 @@ export const locationUpdate = ({lat, lon, address}) => {
     };
 }
 
-export const backetCheckout = () => {
+export const updateUi = (ui) => {
     return {
-      type: 'CHECKOUT_BASKET',
+      type: 'UI_UPDATE',
+      ui
     };
 }
 
@@ -18,6 +19,12 @@ export const searchLocation = (query) => {
     return {
       type: 'LOCATION_SEARCH',
       query
+    };
+}
+
+export const browserLocation = () => {
+    return {
+      type: 'LOCATION_BROWSER'
     };
 }
 

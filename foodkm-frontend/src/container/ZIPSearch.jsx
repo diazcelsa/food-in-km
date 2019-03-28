@@ -4,7 +4,7 @@ import * as a from '../actions';
 import { connect } from 'react-redux';
 
 const ZIPSearchBox = ({onChange, address,geoLocate, addressSearchOverlayOpen}) => (
-    
+
         <div id="zip-search-overlay" className={"gray-overlay " + (addressSearchOverlayOpen ? 'zip-search-is-active' : null)}>
             <div className="transform-center" style={{width: "50%"}}>
             <h3>Entre su dirección</h3>
@@ -25,6 +25,7 @@ const ZIPSearchBox = ({onChange, address,geoLocate, addressSearchOverlayOpen}) =
             </div>
         </div>
 )
+
 
 const ZIPSearchBoxContainer = connect(
     (state, ownProps) => ({
