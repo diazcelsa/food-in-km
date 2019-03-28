@@ -3,7 +3,14 @@ import _ from 'lodash';
 import * as a from '../actions';
 import { connect } from 'react-redux';
 
-const ZIPSearchBox = ({onChange, address,geoLocate, addressSearchOverlayOpen}) => (
+const ZIPSearchBox = ({onChange, address, geoLocate, addressSearchOverlayOpen, onLocation}) => {
+    const getLocation = () => {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(onLocation);
+        }
+      }
+
+    return (
 
         <div id="zip-search-overlay" className={"gray-overlay " + (addressSearchOverlayOpen ? 'zip-search-is-active' : null)}>
             <div className="transform-center" style={{width: "50%"}}>
@@ -17,14 +24,15 @@ const ZIPSearchBox = ({onChange, address,geoLocate, addressSearchOverlayOpen}) =
                     {suggest.map(({text}, idx)=> <option value={text} key={'suggest-' + idx} />)}
                 </datalist> */}
                 <div className="search-box-icon"></div>
-                <button className="button" id="geolocate-button" onClick={geoLocate}>⚑</button>
+                <button className="button" id="geolocate-button" onClick={getLocation}>⚑</button>
                 <div id="autocomplete-box">
                     {address}
                 </div>
             </div>
             </div>
         </div>
-)
+    )
+}
 
 
 const ZIPSearchBoxContainer = connect(
@@ -33,7 +41,8 @@ const ZIPSearchBoxContainer = connect(
         addressSearchOverlayOpen: state.ui.addressSearchOverlayOpen
     }),
     (dispatch, ownProps) => ({
-        onChange: (value) => dispatch(a.searchLocation(value))
+        onChange: (value) => dispatch(a.searchLocation(value)),
+        onLocation: ({coords}) => dispatch(a.locationUpdate({lat:coords.latitude, lon:coords.longitude}))
     })
 )(ZIPSearchBox)
 

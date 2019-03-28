@@ -21,6 +21,7 @@ import CardList from './container/CardList';
 import MapComponent from './map/MapComponent';
 import StatusBar from './container/StatusBar';
 import ZIPSearch from './container/ZIPSearch';
+import { dispatch } from 'rxjs/internal/observable/pairs';
 
 
 class Index extends React.Component {
@@ -50,7 +51,7 @@ class Index extends React.Component {
                 </div>
 
                 <div id="product-list-panel">
-                    
+
                   <div className="product-list-item header-row">
                     <div className="product-list-item-name">Producto</div>
                     <div className="product-list-item-price">Precio</div>
@@ -62,7 +63,7 @@ class Index extends React.Component {
                   </div>
 
                 </div>
-                
+
             </div>
 
             <StatusBar/>

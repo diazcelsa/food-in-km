@@ -17,11 +17,12 @@ const ProductListItem = ({category_child1, category_child2, additives, allergens
 const ProductList = ({list=dummy, onClick}) => {
     const minRange = _.min(list.map(({distance}) => distance));
     const maxRange = _.max(list.map(({distance}) => distance));
+    const searchDistances = list.map(({distance}) => distance);
     return (
         _.map(list, (listItem, idx) => (
             <ProductListItem
                 {...listItem} key={'product_'+idx}
-                onClick={() => onClick({...listItem, minRange, maxRange})}
+                onClick={() => onClick({...listItem, minRange, maxRange, searchDistances})}
             />
         ))
     )

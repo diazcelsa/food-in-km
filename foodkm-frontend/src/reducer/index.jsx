@@ -31,9 +31,6 @@ const locationReducer = (location={lat: 40.4, lon: -3.68}, action) => {
     }
 }
 
-
-
-
 const uiReducer = (ui={ addressSearchOverlayOpen: true, cardViewOverlayOpen: false}, action) => {
     switch (action.type) {
         case 'LOCATION_UPDATE':

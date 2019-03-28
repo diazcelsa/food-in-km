@@ -1,7 +1,7 @@
 import { ajax } from 'rxjs/ajax';
 import { combineEpics, ofType } from 'redux-observable';
 import { of } from 'rxjs';
-import { map, catchError, concatMap, tap, withLatestFrom, filter, debounceTime } from 'rxjs/operators';
+import { map, catchError, concatMap, tap, withLatestFrom, filter, debounceTime, startWith } from 'rxjs/operators';
 import * as a from '../actions';
 import { BACKEND_URL } from '../config'
 
@@ -16,6 +16,7 @@ const makeURL = (action, state) => {
 const productSearchEpic = (action$, state$) => (
     action$.pipe(
         ofType('PRODUCTS_SEARCH'),
+        debounceTime(1000),
         withLatestFrom(state$),
         map(([action, state]) => ({url: makeURL(action, state)})),
         tap(console.log, console.log),
