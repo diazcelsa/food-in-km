@@ -38,7 +38,7 @@ const BasketContainer = connect(
         basket: state.basket
     }),
     (dispatch, ownProps) => ({
-        onCheckout: (value) => dispatch(a.backetCheckout())
+        onCheckout: (value) => dispatch(a.updateUi({cardViewOverlayOpen: true}))
     })
 )(BasketComponent)
 

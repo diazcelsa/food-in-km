@@ -13,11 +13,11 @@ const CardListItem = ({product_brand,product_name,price,distance,idx,onClick}) =
         </div>
 )
 
-const ProductList = ({basket=dummy, onClick, cardViewOverlayOpen}) => {
+const ProductList = ({basket=dummy, onClick, closeOverlay, cardViewOverlayOpen}) => {
     return (
 
     <div id="cart-view-overlay" className={"gray-overlay " + (cardViewOverlayOpen ? 'cart-view-is-active' : null)}>
-      <button className="close-button">×</button>
+      <button className="close-button" onClick={closeOverlay} >×</button>
       <div className="padded-container" style={{width: "90%"}}>
         <h3>Productos seleccionados</h3>
         {_.map(basket, (listItem, idx) => (
@@ -32,14 +32,14 @@ const ProductList = ({basket=dummy, onClick, cardViewOverlayOpen}) => {
     )
 }
 
-
 const ProductListContainer = connect(
     (state, ownProps) => ({
         basket: state.basket,
         cardViewOverlayOpen: state.ui.cardViewOverlayOpen
     }),
     (dispatch, ownProps) => ({
-        onClick: (idx) => dispatch(a.removeBasket(idx))
+        onClick: (idx) => dispatch(a.removeBasket(idx)),
+        closeOverlay: () => dispatch(a.updateUi({cardViewOverlayOpen: false}))
     })
 )(ProductList)
 

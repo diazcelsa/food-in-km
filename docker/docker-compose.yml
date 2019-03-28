@@ -31,6 +31,7 @@ services:
       - PORT=3423
       - FOODKM_ES_HOST=elasticsearch
       - FOODKM_ES_PORT=9200
+      - GOOGLE_API_KEYS=AIzaSyC-bVKLm8g9Vf3BDrYShcR_8_3beaWothc
 
 networks:
   elk:

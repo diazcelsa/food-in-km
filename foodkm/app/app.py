@@ -5,6 +5,8 @@ from elasticsearch import Elasticsearch
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 
+import logging
+
 from foodkm.geo_utils import get_latitude_longitude_google_api
 
 app = Flask(__name__)
@@ -15,6 +17,10 @@ es = Elasticsearch(
     scheme="http",
     port=os.environ['FOODKM_ES_PORT']
 )
+
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
+log.addHandler(logging.StreamHandler())
 
 
 def make_search_query(query, lat, lon, fields):
@@ -91,8 +97,11 @@ def search():
 
 def get_user_location(postal_code):
     address = postal_code + " " + config.USER_COUNTRY
+    log.info(config.GOOGLE_MAPS_API_KEY)
+    log.info(address)
     geodata = get_latitude_longitude_google_api(
         config.GOOGLE_MAPS_API_URL, config.GOOGLE_MAPS_API_KEY, address)
+    log.info(geodata)
     return geodata['lat'], geodata['lon'], geodata['address']
 
 
@@ -106,8 +115,8 @@ def location():
         user_geo_location['address'] = address
 
         return jsonify(user_geo_location)
-    except:
-        return jsonify({'error': 'NOT_FOUND'})
+    except Exception as exp:
+        return jsonify({'error': str(exp)})
 
 
 def run():
