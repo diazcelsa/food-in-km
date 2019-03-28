@@ -21,7 +21,8 @@ const errorReducer = (error = [], action) => {
     }
 }
 
-const locationReducer = (location={lat: 34, lon: 23}, action) => {
+
+const locationReducer = (location={lat: 40.4, lon: -3.68}, action) => {
     switch (action.type) {
         case 'LOCATION_UPDATE':
             return {lat: action.lat, lon: action.lon}

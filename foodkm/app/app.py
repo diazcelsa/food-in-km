@@ -16,21 +16,22 @@ es = Elasticsearch(
     port=os.environ['FOODKM_ES_PORT']
 )
 
-
 def make_search_query(query, lat, lon):
     return {
-        "sort": [
-            {
-                "_geo_distance": {
-                    "location": [float(lat), float(lon)],
-                    "order": "asc",
-                    "unit": "km",
-                    "mode": "min",
-                    "distance_type": "arc",
-                    "ignore_unmapped": "true"
+        "size": 50,
+        "_source": True,
+        "script_fields": {
+                "distance": {
+                    "script": {
+                        "lang": "painless",
+                        "source": "doc['location'].arcDistance(params.lat,params.lon)",
+                        "params": {
+                            "lat": float(lat),
+                            "lon": float(lon)
+                        }
+                    }
                 }
-            }
-        ],
+        },
         "query": {
             "multi_match": {
                 "fields": ["product_name"],
@@ -39,25 +40,26 @@ def make_search_query(query, lat, lon):
             }
         },
         "suggest": {
-            "productGroupSuggestion": {
-            "text": query,
-            "term": {
-                "field": "product_name"
-            }
+            "suggestions": {
+                "text": query,
+                "term": {
+                    "field": "product_name"
+                }
             }
         }
     }
 
 
 def parse_search_result(hit):
-    distance = hit['sort'][0]
+    distance = hit['fields']["distance"][0] / 1000
     co2 = distance * 10
     return {**hit['_source'], 'distance': distance, 'co2': co2}
 
 
 def parse_search_results(results):
     hits = results['hits']['hits']
-    return [parse_search_result(h) for h in hits]
+    suggest = results['suggest']['suggestions']
+    return [parse_search_result(h) for h in hits], suggest
 
 
 @app.route("/search")
@@ -66,14 +68,15 @@ def search():
     query_args = {ra: request.args.get(ra) for ra in req_args}
     query = make_search_query(**query_args)
     results = es.search(index="food_in_km", doc_type="_doc", body=query)
-    results = parse_search_results(results)
-    body = {'results': results}
+    results, suggest = parse_search_results(results)
+    body = {'results': results, 'suggest': suggest}
     return jsonify(body)
 
 
 def get_user_location(postal_code):
     address = postal_code + ", " + config.USER_COUNTRY
-    geodata = get_latitude_longitude_google_api(config.GOOGLE_MAPS_API_URL, config.GOOGLE_MAPS_API_KEY, address)
+    geodata = get_latitude_longitude_google_api(
+        config.GOOGLE_MAPS_API_URL, config.GOOGLE_MAPS_API_KEY, address)
     return geodata['lat'], geodata['lon']
 
 

@@ -34,17 +34,16 @@ def clean_and_rename(df):
 
 def extract_prices_info(df):
     # Get price netto and quantity as different columns
-    try:
-        df['price'] = df['price'].str.replace(',', '.').astype(float)
-    except:
-        pass
-    try:
-        df['price_netto'] = df['price_norm'].str.split(':').str[1]
-        df['product_price_netto'] = df['price_netto'].str.split(' ').str[1].str.replace(',', '.').astype(float)
-        df['product_quantity_netto'] = df['price_norm'].str.split(':').str[0].replace('unknown', np.nan)
-        df.drop(['price_norm', 'price_netto'], axis=1)
-    except:
-        pass
+    df['price'] = pd.to_numeric(df['price'].str.replace(',', '.'), errors='coerce')
+    w_p_null = df['price'].isnull()
+    w_pn_null = df['price_norm'].isnull()
+    df.loc[w_p_null & ~w_pn_null, 'price_norm'] = df.loc[w_p_null & ~w_pn_null, 'price']
+    df['price_netto'] = df['price_norm'].str.split(':').str[1]
+    df['product_price_netto'] = \
+        df['price_netto'].str.split(' ').str[1].str.replace(',', '.').astype(float)
+    df['product_quantity_netto'] = \
+        df['price_norm'].str.split(':').str[0].replace('unknown', np.nan)
+    df.drop(['price_norm', 'price_netto'], axis=1)
     return df
 
 

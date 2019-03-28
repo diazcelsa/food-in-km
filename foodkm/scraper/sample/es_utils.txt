@@ -36,6 +36,29 @@ GET /_search
     }
 }
 
+
+GET /_search
+{
+   "fields" : [ "_source" ],
+   "script_fields" : {
+      "distance" : {
+         "params" : {
+            "lat" : 2.27,
+            "lon" : 50.3
+         },
+         "script" : "doc['location'].distanceInKm(lat,lon)"
+      }
+   },
+    "query": {
+        "match_all": {}
+    }
+}
+
+
+
+
+
+
 POST food_in_km/_search
 {
   "suggest" : {
@@ -57,6 +80,9 @@ PUT /food_in_km
             "properties": {
                 "location": {
                     "type": "geo_point"
+                },
+                "postal_code": {
+                    "type": "text"
                 }
             }
         }
