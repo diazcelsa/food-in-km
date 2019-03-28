@@ -9,6 +9,7 @@ html, body {
   background: #fff;
   position: relative;
   margin-bottom: 20px;
+  border-radius: 4px;
 }
 
 .search-box:focus {
@@ -286,9 +287,17 @@ html, body {
   border: none;
   width: 50%;
   text-transform: uppercase;
+  /*border: 1px solid #eee;*/
+  height: 100%;
 }
 
 #tab-menu button.is-active{
   background: #fff;
   color: #666;
+  border-left: 1px solid #999;
+  border-right: 1px solid #999;
+  border-top: none;
+  border-bottom: none;
+  position: relative;
+  left: 1px;
 }
