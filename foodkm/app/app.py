@@ -40,19 +40,41 @@ def make_search_query(query, lat, lon, fields):
                 }
         },
         "query": {
-            "multi_match": {
-                "fields": fields,
-                "query": query,
-                "type": 'cross_fields',
-                # "fuzziness": "0",
-                "operator": "and"
+            "bool": {
+                "filter": {
+                    "multi_match": {
+                        "fields": fields,
+                        "query": query,
+                        "type": 'cross_fields',
+                        # "fuzziness": "0",
+                        "operator": "and"
+                    }
+                },
+                "should": [
+                    {
+                        "term": {
+                            "product_name": {
+                                "value": query,
+                                "boost": 1.0
+                            }
+                        }
+                    },
+                    {
+                        "term": {
+                            "category_child2": {
+                                "value": query,
+                                "boost": 1.0
+                            }
+                        }
+                    }
+                ]
             }
         },
-        "sort": [
-            {
-                "price": "asc"
-            }
-        ],
+        # "sort": [
+        #     {
+        #         "price": "asc"
+        #     }
+        # ],
         "suggest": {
             "suggestions": {
                 "text": query,

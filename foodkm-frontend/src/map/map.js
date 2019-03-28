@@ -51,6 +51,22 @@ export default class map {
         'fillOpacity': 1,
         'fillColor': '#FF530D'
       }).addTo(this.theMap);
+      line.bindPopup('<b>' + loc.product.distance.toFixed(2) + 'km</b>');
+      line.on('mouseover', function (e) {
+          this.openPopup();
+      });
+      line.on('mouseout', function (e) {
+          this.closePopup();
+      });
+
+      circle.bindPopup(loc.product.product_name);
+      circle.on('mouseover', function (e) {
+          this.openPopup();
+      });
+      circle.on('mouseout', function (e) {
+          this.closePopup();
+      });
+
       this.features.push(line);
       this.features.push(circle);
     })
