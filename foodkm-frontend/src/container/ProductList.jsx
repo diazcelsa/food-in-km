@@ -18,7 +18,7 @@ const ProductListItem = ({category_child1, category_child2, additives, allergens
           <strong>Distancia</strong>
           <div className="product-list-item-datum">{(distance ? Math.round(distance) + "km" : null)}</div>
       </div>
-      <button className="add-to-cart-button" onClick={onClick}>+</button>
+      <button className="add-to-cart-button" onClick={onClick}>{buttonStyle}</button>
     </div>
 )
 
