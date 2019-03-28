@@ -21,6 +21,7 @@ import CardList from './container/CardList';
 import MapComponent from './map/MapComponent';
 import StatusBar from './container/StatusBar';
 import ZIPSearch from './container/ZIPSearch';
+import TabMenu from './container/TabMenu';
 import { dispatch } from 'rxjs/internal/observable/pairs';
 
 
@@ -51,6 +52,8 @@ class Index extends React.Component {
                 </div>
 
                 <div id="product-list-panel">
+
+                    <TabMenu />
 
                   <div className="inner">
                       <ProductList/>
