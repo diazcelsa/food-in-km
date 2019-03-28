@@ -31,10 +31,10 @@ const locationReducer = (location={lat: 40.4, lon: -3.68}, action) => {
     }
 }
 
-const uiReducer = (ui={ addressSearchOverlayOpen: true, cardViewOverlayOpen: false}, action) => {
+const uiReducer = (ui={ addressSearchOverlayOpen: true, cardViewOverlayOpen: false, searchActive: true}, action) => {
     switch (action.type) {
         case 'LOCATION_UPDATE':
-            return {cardViewOverlayOpen: false, addressSearchOverlayOpen: false}
+            return {...ui, addressSearchOverlayOpen: false}
         case 'UI_UPDATE':
             return {...ui, ...action.ui}
         default:
