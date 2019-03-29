@@ -11,7 +11,7 @@ const CardListItem = ({product_brand,product_name,price,distance,idx,onClick, se
           <div className="product-list-item-price">{(price ? price.toFixed(2) + "€" : null)}</div>
           <div className="product-list-item-km">{(distance ? Math.round(distance) + "km" : null)}</div>
           <button className="add-to-cart-button" onClick={onClick}>-</button>
-        </div>
+    </div>
 )
 
 const ProductList = ({basket=dummy, onClick, closeOverlay, cardViewOverlayOpen}) => {
@@ -49,6 +49,9 @@ const ProductList = ({basket=dummy, onClick, closeOverlay, cardViewOverlayOpen})
             <em>Distancia promedia</em>
             <strong>{meanKM.toFixed(0)}<span>km</span></strong>
           </div>
+
+        <div class="map" id="analysis-map"></div>
+
 
 
         </div>
