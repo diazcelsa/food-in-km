@@ -6,6 +6,37 @@ import stripPlot from './../map/strip-plot'
 import {MapComponent} from '../map/MapComponent'
 
 
+
+
+class ChartComponent extends React.Component {
+    constructor() {
+        super();
+        // this.theMap = null;
+        // this.chatId = this.props.
+    }
+
+    componentDidMount(){
+        this.plot = new stripPlot({
+          element: '#' + this.props.chartId,
+          data: this.props.data,
+          currentProduct: {
+            name: this.props.product_name,
+            distance: this.props.distance,
+          }
+        })
+    }
+
+    render(){
+        return (
+        <div className="result-chart" id={this.props.chartId}>
+            <svg></svg>
+        </div>
+        )
+    }
+}
+
+
+
 const CardListItem = ({product_brand,product_name,price,distance,idx,onClick,category_child1,category_child2,address,searchDistances}) => (
 // searchDistances: array of distances of comparable products
     <div className="product-list-item">
@@ -22,10 +53,7 @@ const CardListItem = ({product_brand,product_name,price,distance,idx,onClick,cat
             <div className="product-list-item-datum">{(distance ? Math.round(distance) + "km" : null)}</div>
           </div>
         </div>
-        <div className="result-chart" id={"chart_"+idx}>
-            <svg></svg>
-        </div>
-
+        <ChartComponent chartId={'chart-'+idx} data={searchDistances} distance={distance} product_name={product_name}/>
     </div>
 )
 
@@ -68,9 +96,10 @@ const ProductList = ({basket=dummy, onClick, location, cardViewOverlayOpen}) => 
 
         <div className='results-map-container'>
             <MapComponent location={location} list={basket} mapId="analysisMap" />
-          </div>
+        </div>
 
         <h3>Detalles de productos</h3>
+
 
         {_.map(basket, (listItem, idx) => (
             <CardListItem

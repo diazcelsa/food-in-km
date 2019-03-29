@@ -7,6 +7,10 @@ export default class stripPlot {
     console.log(this)
   }
 
+  makeSettings() {
+    
+  }
+
   appendElements() {
 
   }
