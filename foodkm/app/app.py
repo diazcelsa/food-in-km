@@ -107,7 +107,7 @@ def parse_search_results(results):
 def search():
     req_args = ['query', 'lat', 'lon']
     query_args = {ra: request.args.get(ra) for ra in req_args}
-    query = make_search_query(**query_args, fields=["category_child1", "category_child2", "product_name"])
+    query = make_search_query(**query_args, fields=["product_description", "category_child1", "category_child2", "product_name"])
     results = es.search(index="food_in_km", doc_type="_doc", body=query)
     # if len(results['hits']['hits']) < 2:
     #     query = make_search_query(**query_args, fields=["category_child1", "category_child2",  "product_name"])

@@ -4,8 +4,9 @@ import * as a from '../actions';
 import { connect } from 'react-redux';
 
 
-const CardListItem = ({product_brand,product_name,price,distance,idx,onClick}) => (
-        <div className="product-list-item">
+const CardListItem = ({product_brand,product_name,price,distance,idx,onClick, searchDistances}) => (
+// searchDistances: array of distances of comparable products
+    <div className="product-list-item">
           <div className="product-list-item-name">{product_brand} {product_name}</div>
           <div className="product-list-item-price">{(price ? price.toFixed(2) + "€" : null)}</div>
           <div className="product-list-item-km">{(distance ? Math.round(distance) + "km" : null)}</div>

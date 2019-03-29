@@ -5,11 +5,11 @@ import { connect } from 'react-redux';
 
 
 const ProductListItem = ({category_child1, category_child2, additives, allergens, address,
-    product_brand,product_name,price,distance,idx,onClick, buttonStyle}) => (
+    product_brand,product_name,price,distance,idx,onClick, buttonStyle, product_description}) => (
     <div className="product-list-item">
       <div className="product-list-item-info">
           <div className="product-list-item-category">{category_child1} | {category_child2}</div>
-          <div className="product-list-item-name">{product_name}</div>
+          <div className="product-list-item-name">{(product_name ? product_name : product_description)}</div>
           <div className="product-list-item-brand">Marca {product_brand}, {address}</div>
       </div>
       <div className="product-list-item-data">
