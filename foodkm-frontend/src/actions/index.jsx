@@ -36,6 +36,15 @@ export const updateProducts = (products,suggest) => {
   };
 }
 
+
+export const activeProduct = (idx, active) => {
+    return {
+      type: 'PRODUCT_ACTIVE',
+      idx,
+      active
+    };
+  }
+
 export const searchProducts = (query) => {
     return {
         type: 'PRODUCTS_SEARCH',
