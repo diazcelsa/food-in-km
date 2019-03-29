@@ -24,8 +24,8 @@ const CardListItem = ({product_brand,product_name,price,distance,idx,onClick,cat
         </div>
         <div className="result-chart" id={"chart_"+idx}>
             <svg></svg>
-            
         </div>
+
     </div>
 )
 
@@ -69,10 +69,12 @@ const ProductList = ({basket=dummy, onClick, location, cardViewOverlayOpen}) => 
         <div className='results-map-container'>
             <MapComponent location={location} list={basket} mapId="analysisMap" />
           </div>
-        
+
+        <h3>Detalles de productos</h3>
+
         {_.map(basket, (listItem, idx) => (
             <CardListItem
-                {...listItem} key={'product_'+idx}
+                {...listItem} key={'product_'+idx} idx={idx}
                 onClick={() => onClick(idx)}
             />
         ))}
