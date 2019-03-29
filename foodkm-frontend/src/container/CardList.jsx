@@ -64,13 +64,12 @@ const ProductList = ({basket=dummy, onClick, location, cardViewOverlayOpen}) => 
             <em>Distancia promedia</em>
             <strong>{meanKM.toFixed(0)}<span>km</span></strong>
           </div>
+        </div>
 
-          <div className='map'>
+        <div className='results-map-container'>
             <MapComponent location={location} list={basket} mapId="analysisMap" />
-        </div>
-
-
-        </div>
+          </div>
+        
         {_.map(basket, (listItem, idx) => (
             <CardListItem
                 {...listItem} key={'product_'+idx}
