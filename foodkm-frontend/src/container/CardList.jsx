@@ -6,6 +6,30 @@ import stripPlot from './../map/strip-plot'
 import {MapComponent} from '../map/MapComponent'
 
 
+
+
+class ChartComponent extends React.Component {
+    constructor() {
+        super();
+        // this.theMap = null;
+        // this.chatId = this.props.
+    }
+
+    componentDidMount(){
+        this.plot = new stripPlot({hello: "world"})
+    }
+
+    render(){
+        return (
+        <div className="result-chart" id={this.props.chartId}>
+            <svg></svg>
+        </div>
+        )
+    }
+}
+
+
+
 const CardListItem = ({product_brand,product_name,price,distance,idx,onClick,category_child1,category_child2,address,searchDistances}) => (
 // searchDistances: array of distances of comparable products
     <div className="product-list-item">
@@ -22,10 +46,7 @@ const CardListItem = ({product_brand,product_name,price,distance,idx,onClick,cat
             <div className="product-list-item-datum">{(distance ? Math.round(distance) + "km" : null)}</div>
           </div>
         </div>
-        <div className="result-chart" id={"chart_"+idx}>
-            <svg></svg>
-
-        </div>
+        <ChartComponent chartId={'chart-'+{idx}}/>
     </div>
 )
 
