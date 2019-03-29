@@ -2,15 +2,29 @@ import React from 'react'
 import _ from 'lodash';
 import * as a from '../actions';
 import { connect } from 'react-redux';
+import stripPlot from './../map/strip-plot'
 
 
-const CardListItem = ({product_brand,product_name,price,distance,idx,onClick, searchDistances}) => (
+const CardListItem = ({product_brand,product_name,price,distance,idx,onClick,category_child1,category_child2,address,searchDistances}) => (
 // searchDistances: array of distances of comparable products
     <div className="product-list-item">
-          <div className="product-list-item-name">{product_brand} {product_name}</div>
-          <div className="product-list-item-price">{(price ? price.toFixed(2) + "€" : null)}</div>
-          <div className="product-list-item-km">{(distance ? Math.round(distance) + "km" : null)}</div>
-          <button className="add-to-cart-button" onClick={onClick}>-</button>
+        <div className="result-info">
+          <div className="product-list-item-category">{category_child1} | {category_child2}</div>
+          <div className="product-list-item-name">{(product_name ? product_name : product_description)}</div>
+          <div className="product-list-item-brand">Marca {product_brand}, {address}</div>
+          <div className="result-float">
+            <strong>Precio</strong>
+            <div className="product-list-item-datum">{(price ? price.toFixed(2) + "€" : null)}</div>
+          </div>
+          <div className="result-float">
+            <strong>Distancia</strong>
+            <div className="product-list-item-datum">{(distance ? Math.round(distance) + "km" : null)}</div>
+          </div>
+        </div>
+        <div className="result-chart" id={"chart_"+idx}>
+            <svg></svg>
+            
+        </div>
     </div>
 )
 
@@ -50,7 +64,7 @@ const ProductList = ({basket=dummy, onClick, closeOverlay, cardViewOverlayOpen})
             <strong>{meanKM.toFixed(0)}<span>km</span></strong>
           </div>
 
-        <div class="map" id="analysis-map"></div>
+        <div className="map" id="analysis-map"></div>
 
 
 
