@@ -14,6 +14,14 @@ const CardListItem = ({product_brand,product_name,price,distance,idx,onClick}) =
 )
 
 const ProductList = ({basket=dummy, onClick, closeOverlay, cardViewOverlayOpen}) => {
+    const totalPrice = (basket.length > 0 ? _.sum(basket.map(({price}) => price)):0);
+    const totalKM = (basket.length > 0 ? _.sum(basket.map(({distance}) => distance)):0);
+    const numBasket = basket.length;
+    const meanKM = (basket.length > 0 ? _.mean(basket.map(({distance}) => distance)):0);
+    // const totalMinRange = _.sum(basket.map(({minRange}) => minRange));
+    // const totalMaxRange = _.sum(basket.map(({maxRange}) => maxRange));
+
+
     return (
 
     <div id="cart-view-overlay" className={(cardViewOverlayOpen ? 'cart-view-is-active' : null)}>
@@ -23,22 +31,22 @@ const ProductList = ({basket=dummy, onClick, closeOverlay, cardViewOverlayOpen})
 
           <div className="barn-unit">
             <em>Cantidad de productos</em>
-            <strong>12</strong>
+            <strong>{numBasket}</strong>
           </div>
 
           <div className="barn-unit">
             <em>Gasto total</em>
-            <strong>230.10<span>€</span></strong>
+            <strong>{totalPrice.toFixed(2)}<span>€</span></strong>
           </div>
 
           <div className="barn-unit">
             <em>Distancia total</em>
-            <strong>4200<span>km</span></strong>
+            <strong>{totalKM.toFixed(0)}<span>km</span></strong>
           </div>
 
           <div className="barn-unit">
             <em>Distancia promedia</em>
-            <strong>29.6<span>km</span></strong>
+            <strong>{meanKM.toFixed(0)}<span>km</span></strong>
           </div>
 
 
