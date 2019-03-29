@@ -3,6 +3,7 @@ import _ from 'lodash';
 import * as a from '../actions';
 import { connect } from 'react-redux';
 import stripPlot from './../map/strip-plot'
+import {MapComponent} from '../map/MapComponent'
 
 
 const CardListItem = ({product_brand,product_name,price,distance,idx,onClick,category_child1,category_child2,address,searchDistances}) => (
@@ -28,7 +29,7 @@ const CardListItem = ({product_brand,product_name,price,distance,idx,onClick,cat
     </div>
 )
 
-const ProductList = ({basket=dummy, onClick, closeOverlay, cardViewOverlayOpen}) => {
+const ProductList = ({basket=dummy, onClick, location, cardViewOverlayOpen}) => {
     const totalPrice = (basket.length > 0 ? _.sum(basket.map(({price}) => price)):0);
     const totalKM = (basket.length > 0 ? _.sum(basket.map(({distance}) => distance)):0);
     const numBasket = basket.length;
@@ -64,8 +65,14 @@ const ProductList = ({basket=dummy, onClick, closeOverlay, cardViewOverlayOpen})
             <strong>{meanKM.toFixed(0)}<span>km</span></strong>
           </div>
 
+<<<<<<< HEAD
         <div className="map" id="analysis-map"></div>
 
+=======
+          <div className='map'>
+            <MapComponent location={location} list={basket} mapId="analysisMap" />
+        </div>
+>>>>>>> 38d5a2ac0ffb133b6f3a23f3b5a8d6fa9d8628eb
 
 
         </div>
@@ -83,6 +90,7 @@ const ProductList = ({basket=dummy, onClick, closeOverlay, cardViewOverlayOpen})
 const ProductListContainer = connect(
     (state, ownProps) => ({
         basket: state.basket,
+        location: state.location,
         cardViewOverlayOpen: state.ui.cardViewOverlayOpen
     }),
     (dispatch, ownProps) => ({

@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import {productsInit, basketInit} from "./dummy"
 
 
 const nameReducer = (loader = 'unkown', action) => {
@@ -64,7 +65,7 @@ let productsDummy = [
 },
 ]
 
-const productsReducer = (products = productsDummy, action) => {
+const productsReducer = (products = productsInit, action) => {
     switch (action.type) {
         case 'PRODUCTS_UPDATE':
             return action.products
@@ -82,8 +83,7 @@ const suggestReducer = (suggest = [], action) => {
     }
 }
 
-
-const basketReducer = (basket = [], action) => {
+const basketReducer = (basket = basketInit, action) => {
     switch (action.type) {
         case 'BASKET_ADD':
             return [...basket, action.product]
