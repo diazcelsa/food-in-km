@@ -10,7 +10,10 @@ export default class map {
       center: this.center,
       zoom: 7,
       dragging: false,
-      zoomControl: false
+      zoomControl: false,
+      scrollWheelZoom: false,
+      touchZoom: false,
+      doubleClickZoom: false
     });
 
     let layer = new L.StamenTileLayer("toner-lite");
@@ -40,7 +43,7 @@ export default class map {
 
     locations.forEach(loc => {
       let line = L.polyline([this.center,loc.loc],{
-        'color': '#FF530D',
+        'color': loc.color,
         'weight' : 2
       }).addTo(this.theMap);
 
@@ -49,7 +52,7 @@ export default class map {
         'color' : '#fff',
         'weight' : 1,
         'fillOpacity': 1,
-        'fillColor': '#FF530D'
+        'fillColor': loc.color
       }).addTo(this.theMap);
       line.bindPopup('<b>' + loc.product.distance.toFixed(2) + 'km</b>');
       line.on('mouseover', function (e) {
