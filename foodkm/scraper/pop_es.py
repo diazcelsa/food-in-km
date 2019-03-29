@@ -25,10 +25,15 @@ def parse_location(sr):
 
 def import_es(filename):
     products = pd.read_csv(filename)
+
+    products = products[products['lat'] != 0]
+
     products['location'] = products[['lat', 'lon']].apply(parse_location, axis=1)
     products = products.drop(['lat', 'lon'], axis=1)
+
     products['date_inserted'] = datetime.datetime.now()
     for index, row in products.iterrows():
+
         body = row.to_dict()
         body = {k: v for k, v in body.items() if not pd.isna(v)}
 
@@ -41,8 +46,8 @@ def import_es(filename):
             res = es.index(index="food_in_km", doc_type='_doc', body=body)
         except:
             print(body)
-            import ipdb; ipdb.set_trace()
-            break
+            # import ipdb; ipdb.set_trace()
+            # break
 
 
 def get_all_files():

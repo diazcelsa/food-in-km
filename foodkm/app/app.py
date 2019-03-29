@@ -41,6 +41,15 @@ def make_search_query(query, lat, lon, fields):
         },
         "query": {
             "bool": {
+                # "must_not": {
+                #     {
+                #         "range": {
+                #             "location.lat": {
+                #                 "gte": -0.01, "lte": 0.01
+                #             }
+                #         }
+                #     }
+                # },
                 "filter": {
                     "multi_match": {
                         "fields": fields,
