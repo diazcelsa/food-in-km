@@ -1,7 +1,7 @@
 import { ajax } from 'rxjs/ajax';
 import { combineEpics, ofType } from 'redux-observable';
 import { of } from 'rxjs';
-import { map, catchError, concatMap, tap, withLatestFrom, filter, debounceTime, startWith } from 'rxjs/operators';
+import { map, catchError, concatMap, tap, withLatestFrom, filter, debounceTime, delay, mapTo } from 'rxjs/operators';
 import * as a from '../actions';
 import { BACKEND_URL } from '../config'
 
@@ -10,6 +10,13 @@ const makeURL = (action, state) => {
     const {lat, lon} = state.location;
     const query = action.query;
     return (BACKEND_URL + '/search?query=' + query + '&lat=' + lat + '&lon=' + lon)
+}
+
+
+const goToElement = (selector) => {
+    document.querySelector(selector).scrollIntoView({
+        behavior: 'smooth'
+    });
 }
 
 
@@ -60,10 +67,21 @@ const locationSearchEpic = (action$, state$) => (
     )
 );
 
+const resultsEpic = (action$, state$) => (
+    action$.pipe(
+        ofType('UI_UPDATE'),
+        filter(({ui}) => (ui.cardViewOverlayOpen)),
+        delay(500),
+        tap(() => goToElement('.barns')),
+        mapTo({type: 'VOID', test: 'yeah'})
+    )
+);
+
 
 const epics = combineEpics(
     productSearchEpic,
-    locationSearchEpic
+    locationSearchEpic,
+    resultsEpic
 );
 
 export default epics;

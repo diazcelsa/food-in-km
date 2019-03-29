@@ -22,6 +22,7 @@ const copyConfig = new CopyWebpackPlugin([{
 module.exports = {
     entry: {
         index: './index.jsx',
+
         // map: './map/map.js'
     },
     context: __dirname + "/src",
