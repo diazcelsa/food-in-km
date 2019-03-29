@@ -23,11 +23,11 @@ const ZIPSearchBox = ({onChange, address, geoLocate, addressSearchOverlayOpen, o
                 {/* <datalist id="suggestions">
                     {suggest.map(({text}, idx)=> <option value={text} key={'suggest-' + idx} />)}
                 </datalist> */}
-                <div className="search-box-icon"></div>
+                {/* <div className="search-box-icon"></div>
                 <button className="button" id="geolocate-button" onClick={getLocation}>⚑</button>
                 <div id="autocomplete-box">
                     {address}
-                </div>
+                </div> */}
             </div>
             </div>
         </div>
