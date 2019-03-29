@@ -44,7 +44,7 @@ export default class map {
     locations.forEach(loc => {
       let line = L.polyline([this.center,loc.loc],{
         'color': loc.color,
-        'weight' : 2
+        'weight' : loc.weight
       }).addTo(this.theMap);
 
       let circle = L.circleMarker(loc.loc, {

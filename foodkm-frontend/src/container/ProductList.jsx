@@ -4,9 +4,9 @@ import * as a from '../actions';
 import { connect } from 'react-redux';
 
 
-const ProductListItem = ({category_child1, category_child2, additives, allergens, address,
+const ProductListItem = ({category_child1, category_child2, additives, allergens, address, onMouseOn, onMouseOut,
     product_brand,product_name,price,distance,idx,onClick, buttonStyle, product_description}) => (
-    <div className="product-list-item">
+    <div className="product-list-item" onMouseEnter={onMouseOn} onMouseLeave={onMouseOut}>
       <div className="product-list-item-info">
           <div className="product-list-item-category">{category_child1} | {category_child2}</div>
           <div className="product-list-item-name">{(product_name ? product_name : product_description)}</div>
@@ -22,7 +22,7 @@ const ProductListItem = ({category_child1, category_child2, additives, allergens
     </div>
 )
 
-const ProductList = ({basket, products, onRmBasket, onAddBasket, searchActive}) => {
+const ProductList = ({basket, products, onRmBasket, onAddBasket, searchActive, onMouseOn, onMouseOut}) => {
     const minRange = _.min(products.map(({distance}) => distance));
     const maxRange = _.max(products.map(({distance}) => distance));
     const searchDistances = _.map(products, ({distance}) => distance);
@@ -33,13 +33,14 @@ const ProductList = ({basket, products, onRmBasket, onAddBasket, searchActive}) 
             <ProductListItem
                 {...listItem} key={'product_'+idx}
                 buttonStyle={buttonStyle}
+                onMouseOn={() => (searchActive ? onMouseOn(idx) : null)}
+                onMouseOut={() => (searchActive ? onMouseOut(idx) : null)}
                 onClick={() =>
                     (searchActive ? onAddBasket({...listItem, minRange, maxRange, searchDistances}): onRmBasket(idx))}
             />
         ))
     )
 }
-
 
 const ProductListContainer = connect(
     (state, ownProps) => ({
@@ -49,7 +50,9 @@ const ProductListContainer = connect(
     }),
     (dispatch, ownProps) => ({
         onAddBasket: (product) => dispatch(a.addBasket(product)),
-        onRmBasket: (idx) => dispatch(a.removeBasket(idx))
+        onRmBasket: (idx) => dispatch(a.removeBasket(idx)),
+        onMouseOn: (idx) => dispatch(a.activeProduct(idx, true)),
+        onMouseOut: (idx) => dispatch(a.activeProduct(idx, false)),
     })
 )(ProductList)
 

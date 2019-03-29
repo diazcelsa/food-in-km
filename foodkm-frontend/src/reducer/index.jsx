@@ -69,6 +69,8 @@ const productsReducer = (products = productsInit, action) => {
     switch (action.type) {
         case 'PRODUCTS_UPDATE':
             return action.products
+        case 'PRODUCT_ACTIVE':
+            return [...products.slice(0, action.idx), {...products[action.idx], active: action.active} , ...products.slice(action.idx + 1)]
         default:
             return products;
     }
