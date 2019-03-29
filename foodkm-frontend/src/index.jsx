@@ -92,8 +92,6 @@ epicMiddleware.run(epics);
 // })
 
 
-
-
 ReactDOM.render(
   <Provider store={store}>
     <Index />

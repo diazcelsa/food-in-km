@@ -36,7 +36,7 @@ const ProductList = ({basket, products, onRmBasket, onAddBasket, searchActive, o
                 onMouseOn={() => (searchActive ? onMouseOn(idx) : null)}
                 onMouseOut={() => (searchActive ? onMouseOut(idx) : null)}
                 onClick={() =>
-                    (searchActive ? onAddBasket({...listItem, minRange, maxRange, searchDistances}): onRmBasket(idx))}
+                    (searchActive ? onAddBasket({...listItem, minRange, maxRange, searchDistances, active: false}): onRmBasket(idx))}
             />
         ))
     )
