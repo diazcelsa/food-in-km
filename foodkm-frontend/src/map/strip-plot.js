@@ -39,7 +39,7 @@ export default class stripPlot {
   }
 
   appendElements() {
-
+    console.log(this)
     this.svg = select(this.element).select('svg')
 
     this.g = this.svg.append('g')
@@ -57,6 +57,15 @@ export default class stripPlot {
       .append('circle')
       .attr('r', 4)
       .attr('class','circle')
+    
+    this.keyCirc = this.g.append('g').attr('class','key-circle')
+    this.keyCirc.append('circle').attr('r', 5)
+    this.keyCirc.append('text').text('Este producto')
+      .attr('class','axis-overlabel')
+      .attr('y',16)
+
+
+
 
   }
 
@@ -82,6 +91,8 @@ export default class stripPlot {
     this.circles.attr('cx', d => {
       return this.xScale(d)
     })
+
+    this.keyCirc.attr('transform','translate('+this.xScale(this.currentProduct.distance)+',0)')
   }
 
 

@@ -1,6 +1,12 @@
 import './css/main.css';
 import './css/leaflet.css';
 
+import './images/mapa-1.png'
+import './images/mapa-2.png'
+import './images/mapa-3.png'
+import './images/mapa-4.png'
+import './images/mapa-5.png'
+
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -40,7 +46,12 @@ class Index extends React.Component {
 
     render() {
         return (
+
         <div id="cart-wrapper">
+
+            <h3>Haz tu lista de la compra</h3>
+            
+
             <ErrorsContainer/>
             <ZIPSearch/>
             <ProductListSearchBox/>
