@@ -13,10 +13,10 @@ const ProductListItem = ({category_child1, category_child2, additives, allergens
           <div className="product-list-item-brand">Marca {product_brand}, {address}</div>
       </div>
       <div className="product-list-item-data">
-          <strong>Precio</strong>
-          <div className="product-list-item-datum">{(price ? price.toFixed(2) + "€" : null)}</div>
           <strong>Distancia</strong>
           <div className="product-list-item-datum">{(distance ? Math.round(distance) + "km" : null)}</div>
+          <strong>Precio</strong>
+          <div className="product-list-item-datum">{(price ? price.toFixed(2) + "€" : null)}</div>
       </div>
       <button className="add-to-cart-button" onClick={onClick}>{buttonStyle}</button>
     </div>

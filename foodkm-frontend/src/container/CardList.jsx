@@ -44,7 +44,9 @@ const CardListItem = ({product_brand,product_name,price,distance,idx,onClick,cat
           <div className="product-list-item-category">{category_child1} | {category_child2}</div>
           <div className="product-list-item-name">{(product_name ? product_name : product_description)}</div>
           <div className="product-list-item-brand">Marca {product_brand}, {address}</div>
-          <div className="result-float">
+        </div>
+        <div className="result-info-data">
+        <div className="result-float">
             <strong>Precio</strong>
             <div className="product-list-item-datum">{(price ? price.toFixed(2) + "€" : null)}</div>
           </div>
