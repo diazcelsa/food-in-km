@@ -489,8 +489,37 @@ h3 {
   /*border-radius: 50%;*/
 }
 
-.map-frame p {
+p.big-graf {
   font-size: 20px;
   line-height: 1.6em;
   margin-top: 0px;
+}
+
+#logo {
+  max-width: 500px;
+  margin: 0 auto;
+  display: block;
+}
+
+#css-logo {
+  font-size: 12vw;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+#css-logo span, #css-logo strong {
+  display: inline-block;
+  margin: 0;
+  padding: 1vw 2.5vw;
+  letter-spacing: -.5vw;
+}
+
+#css-logo span {
+  color: #000;
+  padding: 1vw 2vw 1vw 0;
+}
+
+#css-logo strong {
+  color: #fff;
+  background: #000
 }

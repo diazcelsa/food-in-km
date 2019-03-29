@@ -8,38 +8,62 @@
   <title>React and Webpack4</title>
 </head>
 <body>
+
+    <img id="logo" src="images/FoodInKm.png" />
+    <!-- <div id="css-logo">
+      <span>Food</span><strong>in KM</strong>
+    </div> -->
+
+
+    <h3>Un mensaje de Garbanzón</h3>
+
+    <div id="video-wrapper">
+
+      <iframe id="video" style="margin-bottom: 40px;" width="100%" src="https://www.youtube.com/embed/EKpbS802s6E?controls=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+      <script>
+          let v = document.getElementById('video')
+          let w = v.offsetWidth
+          v.style.height = (w*.5625) + 'px'
+
+      </script>
+
+      
+    <p class="big-graf">Garbanzón es solo un garbanzo de muchos. Solemos pensar que los que consumimos provienen de productores locales de comunidades como Castilla y León, Andalucía o Castilla-La Mancha. Al menos eso es lo que podemos leer en los botes. Sin embargo, la mayoría viajan una larga distancia para llegar a nuestros supermercados.  </p>
+    </div>
+
     <div id="maps">
 
-      <h3>Sabes de dónde vienen tus garbanzos?</h3>
+      <h3>¿Sabes de dónde vienen tus garbanzos?</h3>
 
       <div class="map-frame">
         <span class="zot">1</span>
         <img src="images/mapa-1.png" />
-        <p>La gran mayoría de los garbanzos que consumimos en España provienen del estado de Sinaloa en México.</p>
+        <p class="big-graf">La gran mayoría de los garbanzos que consumimos en España provienen del estado de Sinaloa en México.</p>
       </div>
 
       <div class="map-frame">
         <span class="zot">2</span>
         <img src="images/mapa-2.png" />
-        <p>Cuando están listos para la exportación, los garbanzos viajan hasta el puerto de Veracruz para ser mandados en barco a destinos internacionales.</p>
+        <p class="big-graf">Cuando están listos para la exportación, los garbanzos viajan hasta el puerto de Veracruz para ser mandados en barco a destinos internacionales.</p>
       </div>
 
       <div class="map-frame">
         <span class="zot">3</span>
         <img src="images/mapa-3.png" />
-        <p>El garbanzo mexicano se vende a países de América y, cada vez más en Oriente Medio, norte de África o Europa. España es uno de los principales importadores.</p>
+        vEl garbanzo mexicano se vende a países de América y, cada vez más en Oriente Medio, norte de África o Europa. España es uno de los principales importadores.</p>
       </div>
 
       <div class="map-frame">
         <span class="zot">4</span>
         <img src="images/mapa-4.png" />
-        <p>Los garbanzos entran a España a través de Vigo. Desde allí, viajan a otras regiones como León, donde son envasados y preparados para su venta.</p>
+        <p class="big-graf">Los garbanzos entran a España a través de Vigo. Desde allí, viajan a otras regiones como León, donde son envasados y preparados para su venta.</p>
       </div>
 
       <div class="map-frame">
         <span class="zot">5</span>
         <img src="images/mapa-5.png" />
-        <p>Finalmente, desde León emprenden su último viaje a los supermercados… y a tu plato. </p>
+        <p class="big-graf">Finalmente, desde León emprenden su último viaje a los supermercados… y a tu plato. </p>
       </div>
 
     </div>
