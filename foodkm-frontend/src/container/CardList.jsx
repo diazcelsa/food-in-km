@@ -65,14 +65,9 @@ const ProductList = ({basket=dummy, onClick, location, cardViewOverlayOpen}) => 
             <strong>{meanKM.toFixed(0)}<span>km</span></strong>
           </div>
 
-<<<<<<< HEAD
-        <div className="map" id="analysis-map"></div>
-
-=======
           <div className='map'>
             <MapComponent location={location} list={basket} mapId="analysisMap" />
         </div>
->>>>>>> 38d5a2ac0ffb133b6f3a23f3b5a8d6fa9d8628eb
 
 
         </div>
