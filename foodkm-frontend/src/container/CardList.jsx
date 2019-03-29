@@ -2,6 +2,7 @@ import React from 'react'
 import _ from 'lodash';
 import * as a from '../actions';
 import { connect } from 'react-redux';
+import {MapComponent} from '../map/MapComponent'
 
 
 const CardListItem = ({product_brand,product_name,price,distance,idx,onClick, searchDistances}) => (
@@ -14,7 +15,7 @@ const CardListItem = ({product_brand,product_name,price,distance,idx,onClick, se
     </div>
 )
 
-const ProductList = ({basket=dummy, onClick, closeOverlay, cardViewOverlayOpen}) => {
+const ProductList = ({basket=dummy, onClick, location, cardViewOverlayOpen}) => {
     const totalPrice = (basket.length > 0 ? _.sum(basket.map(({price}) => price)):0);
     const totalKM = (basket.length > 0 ? _.sum(basket.map(({distance}) => distance)):0);
     const numBasket = basket.length;
@@ -50,8 +51,9 @@ const ProductList = ({basket=dummy, onClick, closeOverlay, cardViewOverlayOpen})
             <strong>{meanKM.toFixed(0)}<span>km</span></strong>
           </div>
 
-        <div class="map" id="analysis-map"></div>
-
+          <div className='map'>
+            <MapComponent location={location} list={basket} mapId="analysisMap" />
+        </div>
 
 
         </div>
@@ -69,6 +71,7 @@ const ProductList = ({basket=dummy, onClick, closeOverlay, cardViewOverlayOpen})
 const ProductListContainer = connect(
     (state, ownProps) => ({
         basket: state.basket,
+        location: state.location,
         cardViewOverlayOpen: state.ui.cardViewOverlayOpen
     }),
     (dispatch, ownProps) => ({

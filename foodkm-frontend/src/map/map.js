@@ -6,7 +6,7 @@ export default class map {
   constructor(opts) {
     Object.assign(this, opts);
 
-    this.theMap = L.map('map', {
+    this.theMap = L.map(this.id, {
       center: this.center,
       zoom: 7,
       dragging: false,

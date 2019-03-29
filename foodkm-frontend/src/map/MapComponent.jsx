@@ -41,7 +41,8 @@ class MapComponent extends React.Component {
 
     componentDidMount(){
         this.theMap = new map({
-            'center' : [this.props.location.lat,this.props.location.lon]
+            'center' : [this.props.location.lat,this.props.location.lon],
+            'id': this.props.mapId
         });
     }
 
@@ -50,7 +51,7 @@ class MapComponent extends React.Component {
         // this.theMap = new map({
         //     'center' : [this.props.location.lat,this.props.location.lon]
         // });
-        const locations = this.props.products.map(
+        const locations = this.props.list.map(
             ({location, product_name, distance}) => ({product: {product_name, distance},  loc: [location.lat, location.lon]}))
         if (locations.length > 0) {
             this.theMap.addLocations(locations);
@@ -61,15 +62,16 @@ class MapComponent extends React.Component {
 
     render() {
         return (
-        <div id="map">
+        <div id={this.props.mapId}>
         </div>)
     }
 }
 
 const MapContainer = connect(
     (state, ownProps) => ({
-        products: state.products,
-        location: state.location
+        list: state.products,
+        location: state.location,
+        mapId: 'map'
     }),
     (dispatch, ownProps) => ({
     })
@@ -77,6 +79,6 @@ const MapContainer = connect(
 
 
 
-
+export {MapComponent};
 
 export default MapContainer

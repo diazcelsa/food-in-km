@@ -23,11 +23,11 @@ const ProductListItem = ({category_child1, category_child2, additives, allergens
 )
 
 const ProductList = ({basket, products, onRmBasket, onAddBasket, searchActive}) => {
-    const minRange = _.min(basket.map(({distance}) => distance));
-    const maxRange = _.max(basket.map(({distance}) => distance));
-    const searchDistances = basket.map(({distance}) => distance);
+    const minRange = _.min(products.map(({distance}) => distance));
+    const maxRange = _.max(products.map(({distance}) => distance));
+    const searchDistances = _.map(products, ({distance}) => distance);
     const buttonStyle = (searchActive ? '+' : '-');
-    const list = (searchActive ? products : basket)
+    const list = (searchActive ? products : basket);
     return (
         _.map(list, (listItem, idx) => (
             <ProductListItem
