@@ -49,7 +49,7 @@ class MapComponent extends React.Component {
         // console.log(anyActive);
         const locations = this.props.list.map(
             ({location, product_name, distance, active}) => (
-                {product: {product_name, distance}, weight: (active ? 4: 2), color: (active ? '#000000': '#FF530D'), loc: [location.lat, location.lon]}))
+                {product: {product_name, distance}, weight: (active ? 4: 2), color: (active ? '#4A4A4A': '#FF530D'), loc: [location.lat, location.lon]}))
         const locations_sorted = _.orderBy(locations, 'weight', 'asc');
         if (locations_sorted.length > 0) {
             this.theMap.addLocations(locations_sorted);
@@ -65,7 +65,7 @@ class MapComponent extends React.Component {
         // const anyActive = _.some(this.props.list, ({active}) => active);
         const locations = this.props.list.map(
             ({location, product_name, distance, active}) => (
-                {product: {product_name, distance}, weight: (active ? 4: 2), color: (active ? '#000000': '#FF530D'), loc: [location.lat, location.lon]}))
+                {product: {product_name, distance}, weight: (active ? 4: 2), color: (active ? '#4A4A4A': '#FF530D'), loc: [location.lat, location.lon]}))
         const locations_sorted = _.orderBy(locations, 'weight', 'asc');
         console.log(locations_sorted);
         if (locations_sorted.length > 0) {
