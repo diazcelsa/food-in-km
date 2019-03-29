@@ -59,7 +59,7 @@ const ProductList = ({basket=dummy, onClick, location, cardViewOverlayOpen}) => 
     // const totalMaxRange = _.sum(basket.map(({maxRange}) => maxRange));
 
 
-    return (
+    return (cardViewOverlayOpen ? (
 
     <div id="cart-view-overlay" className={(cardViewOverlayOpen ? 'cart-view-is-active' : null)}>
 
@@ -99,7 +99,7 @@ const ProductList = ({basket=dummy, onClick, location, cardViewOverlayOpen}) => 
         ))}
 
             </div>
-    )
+    ): null)
 }
 
 const ProductListContainer = connect(
