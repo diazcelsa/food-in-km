@@ -8,7 +8,7 @@ const ProductListSearchBox = ({onChange, suggest=[]}) => (
         <div id="product-list-search-box" className="search-box">
             <input type="text" list="suggestions"
                 placeholder='Buscar producto...'
-                value='garbanzo'
+                defaultValue='garbanzo'
                 onInput={evt => onChange(evt.target.value)}
             />
             <datalist id="suggestions">

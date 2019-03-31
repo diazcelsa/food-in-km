@@ -7,6 +7,7 @@ import './images/mapa-3.png'
 import './images/mapa-4.png'
 import './images/mapa-5.png'
 import './images/FoodInKm.png'
+import './images/medialablogo.png'
 
 import React from "react";
 import ReactDOM from "react-dom";
@@ -51,7 +52,7 @@ class Index extends React.Component {
         <div id="cart-wrapper">
 
             <h3>Haz tu lista de la compra</h3>
-            
+
 
             <ErrorsContainer/>
             <ZIPSearch/>

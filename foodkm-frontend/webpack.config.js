@@ -1,9 +1,9 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-
-const cssPlugin = new ExtractTextPlugin("styles.css");
+const cssPlugin = new ExtractTextPlugin("[name].styles.[hash].css");
 
 
 const htmlPlugin = new HtmlWebPackPlugin({
@@ -18,6 +18,8 @@ const copyConfig = new CopyWebpackPlugin([{
   toType: 'file'
 }])
 
+const cleanPlugin = new CleanWebpackPlugin();
+
 
 module.exports = {
     entry: {
@@ -27,7 +29,7 @@ module.exports = {
     },
     context: __dirname + "/src",
     output: {
-      filename: "[name].bundle.js",
+      filename: "[name].bundle.[hash].js",
       path: __dirname + "/dist"
     },
     optimization: {
@@ -45,7 +47,7 @@ module.exports = {
       extensions: [".ts", ".tsx", ".js", ".json", ".jsx"]
     },
 
-    plugins: [htmlPlugin, copyConfig, cssPlugin],
+    plugins: [htmlPlugin, copyConfig, cssPlugin, cleanPlugin],
 
     module: {
       rules: [
